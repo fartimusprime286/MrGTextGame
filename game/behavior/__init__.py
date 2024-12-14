@@ -39,8 +39,8 @@ class TextBoxBehavior(ObjectBehavior):
         if len(self._node.children()) == 0:
             buffer.scene().remove_object(self._parent.name)
             InputHandler.instance.get_or_create_keybind("up").remove_on_press(self._callback_move_up)
-            InputHandler.instance.get_or_create_keybind("down").on_press(self._callback_move_down)
-            InputHandler.instance.get_or_create_keybind("enter").on_press(self._callback_climbtree)
+            InputHandler.instance.get_or_create_keybind("down").remove_on_press(self._callback_move_down)
+            InputHandler.instance.get_or_create_keybind("enter").remove_on_press(self._callback_climbtree)
 
         child = self._node.children()[self._selected_option]
         self._node = child
