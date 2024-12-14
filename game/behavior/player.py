@@ -35,7 +35,7 @@ class PlayerBehavior(ObjectBehavior):
         if InputHandler.instance.is_key_pressed("d"):
             movement_vec.x += 1
 
-        rigid_body.velocity = movement_vec
+        rigid_body.velocity = movement_vec * Vec2(2, 1)
 
         self._update_facing(movement_vec)
 
@@ -90,7 +90,17 @@ class PlayerBehavior(ObjectBehavior):
             interactable.on_interact(buffer, None)
 
     def render(self, buffer: KonsoleBuffer):
-        buffer.draw_texture(self._parent.pos, self._parent.size, "texture/ball")
+        match self.facing:
+            case Direction.UP:
+                texture = "texture/player/back"
+            case Direction.LEFT:
+                texture = "texture/player/left"
+            case Direction.RIGHT:
+                texture = "texture/player/right"
+            case _:
+                texture = "texture/player/front"
+
+        buffer.draw_texture(self._parent.pos, self._parent.size, texture)
         buffer.draw_text(Vec2(104, 4), f"Current Date: {SharedData.current_date.strftime("%B, %d, %Y")}", draw_offsetted=False, color_mapper=lambda _: DefaultColors.RED.value)
         if self._interaction_name is not None:
             buffer.draw_text(Vec2(104, 6), f"Press BACKSLASH to {self._interaction_name}", draw_offsetted=False, color_mapper=lambda _: DefaultColors.RED.value)
