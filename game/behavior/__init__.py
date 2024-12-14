@@ -32,9 +32,12 @@ class TextBoxBehavior(ObjectBehavior):
     def _scroll_down(self):
         self._selected_option = min(len(self._node.children()) - 1, self._selected_option + 1)
 
-    def _climbtree(self):
+    def _climbtree(self,buffer: KonsoleBuffer):
+        scene_buffer = cast(SceneKonsoleBuffer, buffer)
         child = self._node.children()[self._selected_option]
         self._node = child
+        if len(child._node.children) == 0:
+            scene_buffer.scene().remove_object(self._parent.name)
 
     def _render_text_centered(self, text: str, pos: Vec2, buffer: KonsoleBuffer):
         lines = text.splitlines()
@@ -101,12 +104,9 @@ class ExamplePersonBehavior(Interactable):
 
     def on_interact(self, buffer: KonsoleBuffer, interaction_data):
         scene_buffer = cast(SceneKonsoleBuffer, buffer)
-        ballguywords = TextRoot("Hello World \n burger \n i am secretly evil \n just kidding \n or not")
+        ballguywords = TextRoot("Hello Mr. G our game is currently... \n Computing... \n 35.36% Complete \n What would you like to know?")
         ballguywords.add_child(
-            TextNode("Ball", "Option A")
-                .add_child(TextNode("Ball", "Option B"))
-                .add_child(TextNode("Ball", "Option C"))
-                .add_child(TextNode("Ball", "Option D"))
+            TextNode("Ball", "Option A").add_child(TextNode("Ball", "Option B")).add_child(TextNode("Ball", "Option C")).add_child(TextNode("Ball", "Option D"))
         )
         ballguywords.add_child(TextNode("Ball", "Option B"))
         ballguywords.add_child(TextNode("Ball", "Option C"))
