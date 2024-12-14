@@ -106,13 +106,14 @@ class ExamplePersonBehavior(Interactable):
 
     def on_interact(self, buffer: KonsoleBuffer, interaction_data):
         scene_buffer = cast(SceneKonsoleBuffer, buffer)
-        ballguywords = TextRoot("Hello Mr. G our game is currently... \n Computing... \n 35.36% Complete \n What would you like to know?")
+        ballguywords = TextRoot("Hello Mr. G our game is currently... \n Computing... \n 35.36% Complete \n What would you like to know? \n Arrow keys to scroll, enter to select")
         ballguywords.add_child(
-            TextNode("Ball", "Option A").add_child(TextNode("Ball", "Option B")).add_child(TextNode("Ball", "Option C")).add_child(TextNode("Ball", "Option D"))
+            TextNode("The Tales of Geoffus: The Sequel, \n Prequel, and Original", "What is the game called?").add_child(TextNode("Thank you very much", "Wow, that name is awesome")).add_child(TextNode("Go away hater", "Wow, that name sucks"))
         )
-        ballguywords.add_child(TextNode("Ball", "Option B"))
-        ballguywords.add_child(TextNode("Ball", "Option C"))
-        ballguywords.add_child(TextNode("Ball", "Option D"))
+        ballguywords.add_child(TextNode("Thank you so much", "This game is awsome"))
+        ballguywords.add_child(
+            TextNode("Excuse me? Why are you here??", "Why are you here?").add_child(TextNode("Oh, I am here to make ensure that \n the games text features are shown off", "Sorry, I didn't mean it rudely")).add_child(TextNode("OWW!!","*Punch it*"))
+        )
         scene_buffer.scene().add_object(GameObject("ballman tbox", Vec2(115, 4), Vec2(0, 0), TextBoxBehavior(ballguywords, Vec2(70, 16), "texture/ball")))
 
     def interaction_name(self) -> str:
