@@ -100,13 +100,15 @@ class ExamplePersonBehavior(Interactable):
     def on_interact(self, buffer: KonsoleBuffer, interaction_data):
         scene_buffer = cast(SceneKonsoleBuffer, buffer)
         ballguywords = TextRoot("Hello World \n burger \n i am secretly evil \n just kidding \n or not")
-        ballguywords.add_child(TextNode("Ball", "Option A"))
+        ballguywords.add_child(
+            TextNode("Ball", "Option A")
+                .add_child(TextNode("Ball", "Option B"))
+                .add_child(TextNode("Ball", "Option C"))
+                .add_child(TextNode("Ball", "Option D"))
+        )
         ballguywords.add_child(TextNode("Ball", "Option B"))
         ballguywords.add_child(TextNode("Ball", "Option C"))
         ballguywords.add_child(TextNode("Ball", "Option D"))
-        optionachild = TextNode("Option A", "Option 1")
-        optionachild.add_child(TextNode("Ball","Option 1"))
-        optionachild.add_child(TextNode("Ball","Option 2"))
         scene_buffer.scene().add_object(GameObject("ballman tbox", Vec2(115, 4), Vec2(0, 0), TextBoxBehavior(ballguywords, Vec2(70, 16), "texture/ball")))
 
     def interaction_name(self) -> str:
