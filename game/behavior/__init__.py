@@ -33,7 +33,8 @@ class TextBoxBehavior(ObjectBehavior):
         self._selected_option = min(len(self._node.children()) - 1, self._selected_option + 1)
 
     def _climbtree(self):
-        self._node = self._node.children()[self._selected_option]
+        child = self._node.children()[self._selected_option]
+        self._node = child
 
     def _render_text_centered(self, text: str, pos: Vec2, buffer: KonsoleBuffer):
         lines = text.splitlines()
@@ -49,6 +50,8 @@ class TextBoxBehavior(ObjectBehavior):
             )
 
     def _render_option(self, option: TextNode, offset: Vec2, buffer: KonsoleBuffer):
+        if option not in self._node.children(): return
+
         idx = self._node.children().index(option)
         true_center = self._parent.pos + Vec2(self.size.x/2, self.size.y) + offset
         size = (self.size / Vec2(1, 2)) - Vec2(16, 0)
@@ -77,7 +80,6 @@ class TextBoxBehavior(ObjectBehavior):
         for child in children:
             self._render_option(child, Vec2(0, y_off), buffer)
             y_off += (self.size.y / 2) + 2
-
 
     def while_colliding(self, other: Collider):
         pass
