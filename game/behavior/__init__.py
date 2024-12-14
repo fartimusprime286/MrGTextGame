@@ -16,11 +16,14 @@ class TextBoxBehavior(ObjectBehavior):
         self.person = person
         self._node: TextNode = text
         self._selected_option = 0
+        self._callback_move_up = lambda _: self._scroll_up()
+        self._callback_move_down = lambda _: self._scroll_down()
+        self._callback_climbtree = lambda buf: self._climbtree(buf)
 
     def on_load(self, buffer: KonsoleBuffer):
-        InputHandler.instance.get_or_create_keybind("up").on_press(lambda _: self._scroll_up())
-        InputHandler.instance.get_or_create_keybind("down").on_press(lambda _: self._scroll_down())
-        InputHandler.instance.get_or_create_keybind("enter").on_press(lambda _: self._climbtree())
+        InputHandler.instance.get_or_create_keybind("up").on_press(self._callback_move_up)
+        InputHandler.instance.get_or_create_keybind("down").on_press(self._callback_move_down)
+        InputHandler.instance.get_or_create_keybind("enter").on_press(self._callback_climbtree)
         pass
 
     def update(self, buffer: KonsoleBuffer):
@@ -32,12 +35,15 @@ class TextBoxBehavior(ObjectBehavior):
     def _scroll_down(self):
         self._selected_option = min(len(self._node.children()) - 1, self._selected_option + 1)
 
-    def _climbtree(self,buffer: KonsoleBuffer):
-        scene_buffer = cast(SceneKonsoleBuffer, buffer)
+    def _climbtree(self, buffer: SceneKonsoleBuffer):
+        if len(self._node.children()) == 0:
+            buffer.scene().remove_object(self._parent.name)
+            InputHandler.instance.get_or_create_keybind("up").remove_on_press(self._callback_move_up)
+            InputHandler.instance.get_or_create_keybind("down").on_press(self._callback_move_down)
+            InputHandler.instance.get_or_create_keybind("enter").on_press(self._callback_climbtree)
+
         child = self._node.children()[self._selected_option]
         self._node = child
-        if len(child._node.children) == 0:
-            scene_buffer.scene().remove_object(self._parent.name)
 
     def _render_text_centered(self, text: str, pos: Vec2, buffer: KonsoleBuffer):
         lines = text.splitlines()

@@ -1,3 +1,4 @@
+import threading
 from typing import Callable, Self
 
 import keyboard
@@ -10,20 +11,33 @@ class Keybinding:
         self.key = key
         self.press_callbacks = []
         self.release_callbacks = []
+        self._lock = threading.Lock()
 
     def on_press(self, callback: Callable[[SceneKonsoleBuffer], None]):
-        self.press_callbacks.append(callback)
+        with self._lock:
+            self.press_callbacks.append(callback)
 
     def on_release(self, callback: Callable[[SceneKonsoleBuffer], None]):
-        self.release_callbacks.append(callback)
+        with self._lock:
+            self.release_callbacks.append(callback)
+
+    def remove_on_press(self, callback: Callable[[SceneKonsoleBuffer], None]):
+        with self._lock:
+            self.press_callbacks.remove(callback)
+
+    def remove_on_release(self, callback: Callable[[SceneKonsoleBuffer], None]):
+        with self._lock:
+            self.release_callbacks.remove(callback)
 
     def invoke_press(self, buffer: SceneKonsoleBuffer):
-        for callback in self.press_callbacks:
-            callback(buffer)
+        with self._lock:
+            for callback in self.press_callbacks:
+                callback(buffer)
 
     def invoke_release(self, buffer: SceneKonsoleBuffer):
-        for callback in self.release_callbacks:
-            callback(buffer)
+        with self._lock:
+            for callback in self.release_callbacks:
+                callback(buffer)
 
 
 class InputHandler:
