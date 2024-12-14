@@ -72,10 +72,10 @@ class PrisonGameLoader(GameLoader):
             GameObject(
                 "gate_hallway_bill", Vec2(40, 0), Vec2(20, 2),
                 Textured("texture/gate"),
-                SceneSwapper(SharedData.hallway_scene, "go to hallway","player", Vec2(40, 30))))
+                SceneSwapper(SharedData.hallway_scene, "go to hallway","player", Vec2(40, 30))
             )
         )
-        SharedData.hallway_scene.add_object(GameObject("roof_r", Vec2(60, 0), Vec2(100, 2), Textured("texture/floor")))
+        SharedData.bill_cell_scene.add_object(GameObject("roof_r", Vec2(60, 0), Vec2(100, 2), Textured("texture/floor")))
 
         buffer.set_scene(SharedData.player_cell_scene)
 
