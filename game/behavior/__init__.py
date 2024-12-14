@@ -1,5 +1,12 @@
+import threading
+import time
+
+import winsound
+
 from math import ceil
 from typing import cast
+
+from winsound import PlaySound
 
 from core import Vec2, DefaultColors
 from core.behavior import Interactable
@@ -118,3 +125,4 @@ class ExamplePersonBehavior(Interactable):
 
     def interaction_name(self) -> str:
         return "talk to ball"
+

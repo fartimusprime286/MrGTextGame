@@ -1,3 +1,7 @@
+import time
+import winsound
+from winsound import PlaySound
+
 from core import Vec2
 from core.behavior import Textured
 from game.behavior.bed import BedBehavior
@@ -70,3 +74,6 @@ class PrisonGameLoader(GameLoader):
 
 def register_loader():
     PrisonGameLoader().register_self()
+
+#PlaySound('res/sounds/testmusic1.wav', 0)
+
