@@ -12,11 +12,6 @@ from core.konsole import KonsoleBuffer
 
 
 class BedBehavior(Interactable):
-    def __init__(self):
-        super().__init__()
-        self._time = 0.0
-        self._tbox_active = False
-
     def interaction_name(self) -> str:
         return "Sleep"
 
@@ -24,20 +19,12 @@ class BedBehavior(Interactable):
         SharedData.current_date += timedelta(days=1)
         scene_buffer = cast(SceneKonsoleBuffer, buffer)
         scene_buffer.scene().add_object(GameObject("bed_tbox", Vec2(100, 0) , Vec2(0, 0), TextBoxBehavior(TextRoot("You slept"), Vec2(70, 16), "texture/bed")))
-        self._time = time.time()
-        self._tbox_active = True
-
 
     def on_load(self, buffer: KonsoleBuffer):
         pass
 
     def update(self, buffer: KonsoleBuffer):
-        scene_buffer = cast(SceneKonsoleBuffer, buffer)
-
-        if time.time() - self._time > 2 and self._tbox_active:
-            self._time = time.time()
-            scene_buffer.scene().remove_object("bed_tbox")
-            self._tbox_active = False
+        pass
 
     def render(self, buffer: KonsoleBuffer):
         pass

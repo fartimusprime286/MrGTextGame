@@ -16,11 +16,11 @@ class TextBoxBehavior(ObjectBehavior):
         self.person = person
         self._node: TextNode = text
         self._selected_option = 0
-
+        self._key_zone = f"TextBox_{id(self)}"
     def on_load(self, buffer: KonsoleBuffer):
-        InputHandler.instance.get_or_create_keybind("up").on_press(lambda _: self._scroll_up())
-        InputHandler.instance.get_or_create_keybind("down").on_press(lambda _: self._scroll_down())
-        InputHandler.instance.get_or_create_keybind("enter").on_press(lambda _: self._climbtree())
+        InputHandler.instance.get_or_create_keybind("up", self._key_zone).on_press(lambda _: self._scroll_up())
+        InputHandler.instance.get_or_create_keybind("down", self._key_zone).on_press(lambda _: self._scroll_down())
+        InputHandler.instance.get_or_create_keybind("enter", self._key_zone).on_press(lambda buf: self._climbtree(buf))
         pass
 
     def update(self, buffer: KonsoleBuffer):
@@ -32,8 +32,14 @@ class TextBoxBehavior(ObjectBehavior):
     def _scroll_down(self):
         self._selected_option = min(len(self._node.children()) - 1, self._selected_option + 1)
 
-    def _climbtree(self):
-        self._node = self._node.children()[self._selected_option]
+    def _climbtree(self, buffer: SceneKonsoleBuffer):
+        if len(self._node.children()) == 0:
+            buffer.scene().remove_object(self._parent.name)
+            InputHandler.instance.unbind_zone(self._key_zone)
+            return
+
+        child = self._node.children()[self._selected_option]
+        self._node = child
 
     def _render_text_centered(self, text: str, pos: Vec2, buffer: KonsoleBuffer):
         lines = text.splitlines()
@@ -49,6 +55,8 @@ class TextBoxBehavior(ObjectBehavior):
             )
 
     def _render_option(self, option: TextNode, offset: Vec2, buffer: KonsoleBuffer):
+        if option not in self._node.children(): return
+
         idx = self._node.children().index(option)
         true_center = self._parent.pos + Vec2(self.size.x/2, self.size.y) + offset
         size = (self.size / Vec2(1, 2)) - Vec2(16, 0)
@@ -78,7 +86,6 @@ class TextBoxBehavior(ObjectBehavior):
             self._render_option(child, Vec2(0, y_off), buffer)
             y_off += (self.size.y / 2) + 2
 
-
     def while_colliding(self, other: Collider):
         pass
 class ExamplePersonBehavior(Interactable):
@@ -99,14 +106,14 @@ class ExamplePersonBehavior(Interactable):
 
     def on_interact(self, buffer: KonsoleBuffer, interaction_data):
         scene_buffer = cast(SceneKonsoleBuffer, buffer)
-        ballguywords = TextRoot("Hello World \n burger \n i am secretly evil \n just kidding \n or not")
-        ballguywords.add_child(TextNode("Ball", "Option A"))
-        ballguywords.add_child(TextNode("Ball", "Option B"))
-        ballguywords.add_child(TextNode("Ball", "Option C"))
-        ballguywords.add_child(TextNode("Ball", "Option D"))
-        optionachild = TextNode("Option A", "Option 1")
-        optionachild.add_child(TextNode("Ball","Option 1"))
-        optionachild.add_child(TextNode("Ball","Option 2"))
+        ballguywords = TextRoot("Hello Mr. G our game is currently... \n Computing... \n 35.36% Complete \n What would you like to know? \n Arrow keys to scroll, enter to select")
+        ballguywords.add_child(
+            TextNode("The Tales of Geoffus: The Sequel, \n Prequel, and Original", "What is the game called?").add_child(TextNode("Thank you very much", "Wow, that name is awesome")).add_child(TextNode("Go away hater", "Wow, that name sucks"))
+        )
+        ballguywords.add_child(TextNode("Thank you so much", "This game is awsome"))
+        ballguywords.add_child(
+            TextNode("Excuse me? Why are you here??", "Why are you here?").add_child(TextNode("Oh, I am here to make ensure that \n the games text features are shown off", "Sorry, I didn't mean it rudely")).add_child(TextNode("OWW!!","*Punch it*"))
+        )
         scene_buffer.scene().add_object(GameObject("ballman tbox", Vec2(115, 4), Vec2(0, 0), TextBoxBehavior(ballguywords, Vec2(70, 16), "texture/ball")))
 
     def interaction_name(self) -> str:
