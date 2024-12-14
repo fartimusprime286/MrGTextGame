@@ -16,14 +16,11 @@ class TextBoxBehavior(ObjectBehavior):
         self.person = person
         self._node: TextNode = text
         self._selected_option = 0
-        self._callback_move_up = lambda _: self._scroll_up()
-        self._callback_move_down = lambda _: self._scroll_down()
-        self._callback_climbtree = lambda buf: self._climbtree(buf)
-
+        self._key_zone = f"TextBox_{id(self)}"
     def on_load(self, buffer: KonsoleBuffer):
-        InputHandler.instance.get_or_create_keybind("up").on_press(self._callback_move_up)
-        InputHandler.instance.get_or_create_keybind("down").on_press(self._callback_move_down)
-        InputHandler.instance.get_or_create_keybind("enter").on_press(self._callback_climbtree)
+        InputHandler.instance.get_or_create_keybind("up", self._key_zone).on_press(lambda _: self._scroll_up())
+        InputHandler.instance.get_or_create_keybind("down", self._key_zone).on_press(lambda _: self._scroll_down())
+        InputHandler.instance.get_or_create_keybind("enter", self._key_zone).on_press(lambda buf: self._climbtree(buf))
         pass
 
     def update(self, buffer: KonsoleBuffer):
@@ -38,9 +35,8 @@ class TextBoxBehavior(ObjectBehavior):
     def _climbtree(self, buffer: SceneKonsoleBuffer):
         if len(self._node.children()) == 0:
             buffer.scene().remove_object(self._parent.name)
-            InputHandler.instance.get_or_create_keybind("up").remove_on_press(self._callback_move_up)
-            InputHandler.instance.get_or_create_keybind("down").remove_on_press(self._callback_move_down)
-            InputHandler.instance.get_or_create_keybind("enter").remove_on_press(self._callback_climbtree)
+            InputHandler.instance.unbind_zone(self._key_zone)
+            return
 
         child = self._node.children()[self._selected_option]
         self._node = child
