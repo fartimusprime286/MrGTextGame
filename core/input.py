@@ -1,6 +1,4 @@
-import queue
 import threading
-from collections import deque
 from typing import Callable, Self
 
 import keyboard
