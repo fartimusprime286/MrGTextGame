@@ -133,8 +133,9 @@ class TextureLoader:
 
     @staticmethod
     def _load_dir(directory: str):
+        print(f"loading textures from {directory}")
         for root, dirs, files in os.walk(directory):
             for file in files:
-                TextureLoader._load_file(directory, file)
+                TextureLoader._load_file(root, file)
             for sub_dir in dirs:
                 TextureLoader._load_dir(directory + "/" + sub_dir)
