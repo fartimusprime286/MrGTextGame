@@ -1,0 +1,8 @@
+{
+    "texture_location": "res/texture/gate.png",
+    "color_mode": "background",
+    "rescale": [2, 40],
+    "color_to_char": {
+        "rgb(101, 101, 101)": " "
+    }
+}

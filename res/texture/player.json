@@ -1,0 +1,7 @@
+{
+    "texture_location": "res/texture/ball.png",
+    "color_mode": "background",
+    "color_to_char": {
+        "rgb(172, 50, 50)": " "
+    }
+}

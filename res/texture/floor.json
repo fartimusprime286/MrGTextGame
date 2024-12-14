@@ -1,0 +1,8 @@
+{
+    "texture_location": "res/texture/floor.png",
+    "color_mode": "background",
+    "rescale": [100, 2],
+    "color_to_char": {
+        "rgb(255, 255, 255)": " "
+    }
+}
