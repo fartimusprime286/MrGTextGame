@@ -1,3 +1,5 @@
+import datetime
+from datetime import timedelta
 from typing import cast
 
 from core import Vec2, Direction, DefaultColors
@@ -6,7 +8,9 @@ from core.game import ObjectBehavior, GameObject, Collider, SceneKonsoleBuffer
 from core.input import InputHandler
 from core.konsole import KonsoleBuffer
 from core.physix import RigidBody
+from core.text import TextRoot
 from data import SharedData
+from game.behavior import TextBoxBehavior
 
 
 class PlayerBehavior(ObjectBehavior):
@@ -34,7 +38,21 @@ class PlayerBehavior(ObjectBehavior):
             movement_vec.y += 1
         if InputHandler.instance.is_key_pressed("d"):
             movement_vec.x += 1
+        if InputHandler.instance.is_key_pressed("right"):
+            if SharedData.current_date <= datetime.date(2135, 1, 1):
+                SharedData.current_date += timedelta(days=1)
+            else:
+                scene_buffer = cast(SceneKonsoleBuffer, buffer)
+                timemastertbox = TextRoot("You can travel that far forward!")
+                scene_buffer.scene().add_object(GameObject("timemaster tbox", Vec2(115, 4), Vec2(0, 0),TextBoxBehavior(timemastertbox, Vec2(70, 16), "texture/ball")))
 
+        if InputHandler.instance.is_key_pressed("left"):
+            if SharedData.current_date >= datetime.date(2132, 12, 31):
+                SharedData.current_date -= timedelta(days=1)
+            else:
+                scene_buffer = cast(SceneKonsoleBuffer, buffer)
+                timemastertbox = TextRoot("You can travel that far backward!")
+                scene_buffer.scene().add_object(GameObject("timemaster tbox", Vec2(115, 4), Vec2(0, 0),TextBoxBehavior(timemastertbox, Vec2(70, 16),"texture/ball")))
         rigid_body.velocity = movement_vec * Vec2(2, 1)
 
         self._update_facing(movement_vec)

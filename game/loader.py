@@ -15,11 +15,14 @@ from game.behavior import ExamplePersonBehavior
 
 class PrisonGameLoader(GameLoader):
     def on_make_buffer(self, buffer: SceneKonsoleBuffer):
+
+
         #create player cell
         SharedData.player_cell_scene = buffer.create_scene()
         #create hallway scene - set_large enable pseudo- camera tracking
         SharedData.hallway_scene = buffer.create_scene().set_large()
         SharedData.hallway_second_scene = buffer.create_scene().set_large()
+        SharedData.cafeteria_scene = buffer.create_scene().set_large()
         SharedData.bill_cell_scene = buffer.create_scene()
         SharedData.joel_camilo_cell_scene = buffer.create_scene()
         SharedData.lucas_julien_cerrato_cell_scene = buffer.create_scene()
@@ -46,6 +49,7 @@ class PrisonGameLoader(GameLoader):
         SharedData.player_cell_scene.add_object(GameObject("ball_person", Vec2(15, 30), Vec2(4, 4),Textured("texture/ball"),ExamplePersonBehavior()))
 
         #Hallway scene data
+
         #roof
         SharedData.hallway_scene.add_object(GameObject("roof_l", Vec2(0, 0), Vec2(40, 2), Textured("texture/floor") ))
         SharedData.hallway_scene.add_object(
@@ -181,13 +185,35 @@ class PrisonGameLoader(GameLoader):
             )
         )
         SharedData.hallway_second_scene.add_object(GameObject("left_wall", Vec2(0, 0), Vec2(2, 40), Textured("texture/wall")))
-        SharedData.hallway_second_scene.add_object(GameObject("roof3", Vec2(0, 38), Vec2(200, 2), Textured("texture/floor")))
-        SharedData.hallway_second_scene.add_object(GameObject("floor", Vec2(0, 0), Vec2(200, 2), Textured("texture/floor")))
+        SharedData.hallway_second_scene.add_object(GameObject("floor_l9", Vec2(0, 0), Vec2(90, 2), Textured("texture/floor")))
+        SharedData.hallway_second_scene.add_object(GameObject("floor_r9", Vec2(0, 0), Vec2(200, 2), Textured("texture/floor")))
+        SharedData.hallway_second_scene.add_object(GameObject("floor_m9", Vec2(0, 0), Vec2(200, 2), Textured("texture/floor")))
+        SharedData.hallway_second_scene.add_object(GameObject("roof_r6", Vec2(180, 38), Vec2(20, 2), Textured("texture/floor")))
+        SharedData.hallway_second_scene.add_object(GameObject("roof_l6", Vec2(0, 38), Vec2(140, 2), Textured("texture/floor")))
+        SharedData.hallway_second_scene.add_object(
+            GameObject(
+                "cafeteria_gate", Vec2(140, 38), Vec2(40, 2),
+                Textured("texture/gate"),
+                SceneSwapper(SharedData.cafeteria_scene, "go to cafeteria","player", Vec2(25, 25))
+            )
+        )
 
+
+        #cafeteria
+        SharedData.cafeteria_scene.add_object(GameObject("left_wall", Vec2(0, 0), Vec2(2, 80), Textured("texture/wall")))
+        SharedData.cafeteria_scene.add_object(GameObject("right_wall", Vec2(58, 0), Vec2(2, 80), Textured("texture/wall")))
+        SharedData.cafeteria_scene.add_object(GameObject("roof10", Vec2(0, 78), Vec2(60, 2), Textured("texture/floor")))
+        SharedData.cafeteria_scene.add_object(GameObject("floor_r10", Vec2(50, 0), Vec2(10, 2), Textured("texture/floor")))
+        SharedData.cafeteria_scene.add_object(GameObject("floor_l10", Vec2(0, 0), Vec2(10, 2), Textured("texture/floor")))
+        SharedData.cafeteria_scene.add_object(
+            GameObject(
+                "cafeteria_hallway_gate", Vec2(10, 0), Vec2(40, 2),
+                Textured("texture/gate"),
+                SceneSwapper(SharedData.hallway_second_scene, "go to second hallway","player", Vec2(160, 30))
+            )
+        )
 
         buffer.set_scene(SharedData.player_cell_scene)
-
-
 
     def pre_frame(self, buffer: SceneKonsoleBuffer):
         pass
