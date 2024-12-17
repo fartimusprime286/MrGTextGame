@@ -14,6 +14,7 @@ from core.game import ObjectBehavior, GameObject, Collider, SceneKonsoleBuffer
 from core.input import InputHandler
 from core.konsole import KonsoleBuffer
 from core.text import TextRoot, TextNode
+from data import SharedData
 
 
 class TextBoxBehavior(ObjectBehavior):
@@ -24,10 +25,12 @@ class TextBoxBehavior(ObjectBehavior):
         self._node: TextNode = text
         self._selected_option = 0
         self._key_zone = f"TextBox_{id(self)}"
+
     def on_load(self, buffer: KonsoleBuffer):
         InputHandler.instance.get_or_create_keybind("up", self._key_zone).on_press(lambda _: self._scroll_up())
         InputHandler.instance.get_or_create_keybind("down", self._key_zone).on_press(lambda _: self._scroll_down())
         InputHandler.instance.get_or_create_keybind("enter", self._key_zone).on_press(lambda buf: self._climbtree(buf))
+        SharedData.disable_player_controls = True
         pass
 
     def update(self, buffer: KonsoleBuffer):
@@ -43,6 +46,7 @@ class TextBoxBehavior(ObjectBehavior):
         if len(self._node.children()) == 0:
             buffer.scene().remove_object(self._parent.name)
             InputHandler.instance.unbind_zone(self._key_zone)
+            SharedData.disable_player_controls = False
             return
 
         child = self._node.children()[self._selected_option]
