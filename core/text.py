@@ -14,7 +14,7 @@ class TextNode:
     def children(self) -> list[Self]:
         return self._children
 
-    def fruit(self, event):
+    def fruit(self):
         #ballguywords.add_child(
         #   TextNode("The Tales of Geoffus: The Sequel, \n Prequel, and Original",
         #            "What is the game called?").add_child(
@@ -26,7 +26,7 @@ class TextNode:
 
 class TextRoot(TextNode):
     def __init__(self, text: str):
-        super().__init__(text, "root")#hello daniel
+        super().__init__(text, "root")
         self.text = text
         self._children: list[TextNode] = []
 
@@ -36,3 +36,5 @@ class TextRoot(TextNode):
 
     def children(self) -> list[TextNode]:
         return self._children
+
+blah = TextRoot("blah")

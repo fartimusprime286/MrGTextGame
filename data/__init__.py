@@ -12,4 +12,6 @@ class SharedData:
     lucas_julien_cerrato_cell_scene: Scene
     courtyard_scene: Scene
     cafeteria_scene: Scene
+    showers_scene: Scene
+    office_scene: Scene
     current_date = datetime.date(2134, 1, 1)
