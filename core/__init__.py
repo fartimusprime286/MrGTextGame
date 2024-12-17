@@ -66,6 +66,9 @@ class Vec2:
         self.x: float = x
         self.y: float = y
 
+    def is_zero(self):
+        return self.magnitude() == 0
+
     def normalized(self):
         magnitude = self.magnitude()
         if magnitude == 0:

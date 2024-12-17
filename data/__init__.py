@@ -4,6 +4,7 @@ from core.game import Scene
 
 
 class SharedData:
+    disable_player_controls = False
     player_cell_scene: Scene
     hallway_scene: Scene
     bill_cell_scene: Scene

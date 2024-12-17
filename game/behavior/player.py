@@ -18,14 +18,17 @@ class PlayerBehavior(ObjectBehavior):
         super().__init__()
         self.facing = Direction.UP
         self._interaction_name: (str | None) = None
-        InputHandler.instance.get_or_create_keybind("\\").on_press(lambda buf: self._attempt_interact(buf))
+        InputHandler.instance.get_or_create_keybind("\\", "player").on_press(lambda buf: self._attempt_interact(buf))
 
     def on_load(self, buffer: KonsoleBuffer):
         pass
 
     def update(self, buffer: KonsoleBuffer):
-        movement_vec = Vec2(0, 0)
+        if SharedData.disable_player_controls:
+            return
+
         parent = cast(GameObject, self._parent)
+        movement_vec = Vec2(0, 0)
         scene_buffer = cast(SceneKonsoleBuffer, buffer)
 
         rigid_body = parent.get_behavior_by_type(RigidBody)[0]
@@ -91,7 +94,7 @@ class PlayerBehavior(ObjectBehavior):
         raycast = buffer.scene().raycast(
             self._parent.pos, self.facing.value / Vec2(4, 4),
             self._parent.size, 2,
-            lambda obj, _: obj is not self._parent
+            lambda obj: obj is not self._parent
         )
 
         rcast_object = raycast[0]
@@ -102,6 +105,9 @@ class PlayerBehavior(ObjectBehavior):
             return interactables[0]
 
     def _attempt_interact(self, buffer: SceneKonsoleBuffer):
+        if SharedData.disable_player_controls:
+            return
+
         interactable = self._find_interaction(buffer)
 
         if interactable is not None:
