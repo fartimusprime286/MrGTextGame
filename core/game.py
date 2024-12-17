@@ -123,21 +123,20 @@ class Scene:
         self._deletion_buffer.append(obj_id)
         return self._objects.get(obj_id, None)
 
-    def raycast(self, start_pos: Vec2, direction: Vec2, collider_size: Vec2 = Vec2(0, 0), max_travel: float = 10000, selector: Callable[[GameObject, str], bool] = lambda obj, char: True) -> tuple[(GameObject | None), Vec2]:
+    def raycast(self, start_pos: Vec2, direction: Vec2, collider_size: Vec2 = Vec2(0, 0), max_travel: float = 10000, selector: Callable[[GameObject], bool] = lambda obj: True) -> tuple[(GameObject | None), Vec2, float]:
         if direction.magnitude() == 0:
-            return None, Vec2(0, 0)
+            return None, Vec2(0, 0), 0
         pos = start_pos
 
-        while (not self.buffer.is_out_of_bounds(pos)) and (pos - start_pos).magnitude() < max_travel:
+        while pos.distance_to(start_pos) < max_travel:
             collider = Collider("raycast_collider", pos, collider_size)
-            char = self.buffer.pixel_at(pos)
             for game_object in self._objects.values():
-                if game_object.is_colliding_with(collider):
-                    if selector(game_object, char):
-                        return game_object, (pos - start_pos)
+                if collider.bounding_box().is_overlapping(game_object.bounding_box()):
+                    if selector(game_object):
+                        return game_object, (pos - start_pos), pos.distance_to(start_pos)
             pos += direction
 
-        return None, (pos - start_pos)
+        return None, pos - start_pos, pos.distance_to(start_pos)
 
     def process_object_changes(self):
         with self._thread_lock:

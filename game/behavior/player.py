@@ -73,7 +73,7 @@ class PlayerBehavior(ObjectBehavior):
         raycast = buffer.scene().raycast(
             self._parent.pos, self.facing.value / Vec2(4, 4),
             self._parent.size, 2,
-            lambda obj, _: obj is not self._parent
+            lambda obj: obj is not self._parent
         )
 
         rcast_object = raycast[0]

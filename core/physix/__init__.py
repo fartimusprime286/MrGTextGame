@@ -17,10 +17,10 @@ class RigidBody(ObjectBehavior):
 
     def update(self, buffer: KonsoleBuffer):
         parent: GameObject = cast(GameObject, self._parent)
-        raycast_left = parent.scene.raycast(parent.pos + Vec2(0, 1), Vec2(self.raycast_accuracy, 0), Vec2(parent.size.x - 1, parent.size.y - 2), self.raycast_max_travel, lambda game_obj, char: game_obj is not parent)
-        raycast_right = parent.scene.raycast(parent.pos + Vec2(1, 1), Vec2(-self.raycast_accuracy, 0), Vec2(parent.size.x - 1, parent.size.y - 2), self.raycast_max_travel, lambda game_obj, char: game_obj is not parent)
-        raycast_up = parent.scene.raycast(parent.pos + Vec2(1, 0), Vec2(0, -self.raycast_accuracy), Vec2(parent.size.x - 2, parent.size.y - 1), self.raycast_max_travel, lambda game_obj, char: game_obj is not parent)
-        raycast_down = parent.scene.raycast(parent.pos + Vec2(1, 1), Vec2(0,  self.raycast_accuracy), Vec2(parent.size.x - 2, parent.size.y - 1), self.raycast_max_travel, lambda game_obj, char: game_obj is not parent)
+        raycast_left = parent.scene.raycast(parent.pos + Vec2(0, 1), Vec2(self.raycast_accuracy, 0), Vec2(1, parent.size.y - 2), self.raycast_max_travel, lambda game_obj: game_obj is not parent)
+        raycast_right = parent.scene.raycast(parent.pos + Vec2(parent.size.x - 1, 1), Vec2(-self.raycast_accuracy, 0), Vec2(1, parent.size.y - 2), self.raycast_max_travel, lambda game_obj: game_obj is not parent)
+        raycast_up = parent.scene.raycast(parent.pos + Vec2(1, 0), Vec2(0, -self.raycast_accuracy), Vec2(parent.size.x - 2, 1), self.raycast_max_travel, lambda game_obj: game_obj is not parent)
+        raycast_down = parent.scene.raycast(parent.pos + Vec2(1, parent.size.y - 1), Vec2(0,  self.raycast_accuracy), Vec2(parent.size.x - 2, 1), self.raycast_max_travel, lambda game_obj: game_obj is not parent)
 
         collided_left = raycast_left[0] is not None
         collided_right = raycast_right[0] is not None
