@@ -11,6 +11,7 @@ class Collider:
         self.name = name
         self.pos = pos
         self.size = size
+        self.is_raycast_collidable = True
 
     def bounding_box(self) -> BoundingBox:
         return BoundingBox(self.pos, self.pos + self.size)
@@ -131,6 +132,9 @@ class Scene:
         while pos.distance_to(start_pos) < max_travel:
             collider = Collider("raycast_collider", pos, collider_size)
             for game_object in self._objects.values():
+                if not game_object.is_raycast_collidable:
+                    continue
+
                 if collider.bounding_box().is_overlapping(game_object.bounding_box()):
                     if selector(game_object):
                         return game_object, (pos - start_pos), pos.distance_to(start_pos)

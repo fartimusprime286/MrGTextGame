@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 
+import core.logging
 from core.game import ObjectBehavior, Collider
 from core.konsole import KonsoleBuffer
 
@@ -17,6 +18,7 @@ class Textured(ObjectBehavior):
         pass
 
     def render(self, buffer: KonsoleBuffer):
+        #core.logging.debug(f"drawing obj: {self._parent.name}, size: {self._parent.size}, texture {self.texture_id}")
         buffer.draw_texture(self._parent.pos, self._parent.size, self.texture_id, not self.ui)
 
     def while_colliding(self, other: Collider):

@@ -1,7 +1,9 @@
+import logging
 import os
 import time
 from typing import Callable
 
+import core.logging
 from core import Vec2, Color, DefaultColors
 from core.texture import TextureLoader
 
@@ -63,6 +65,8 @@ class KonsoleBuffer:
     def draw_char_no_color(self, pos: Vec2, char: str, draw_offsetted: bool = True):
         if draw_offsetted:
             n_pos = pos + self.offset
+            is_oob = self._is_out_of_bounds(n_pos, self.dimensions)
+            #core.logging.debug(f"Pos: {pos}, offset pos: {n_pos}, oob: {is_oob}, x: {n_pos.x >= self.max_offsetted_dimensions.x or pos.x < 0}, y: {n_pos.y >= self.max_offsetted_dimensions.y or pos.y < 0}")
             if self._is_out_of_bounds(n_pos, self.max_offsetted_dimensions): return
         else:
             n_pos = pos
@@ -106,14 +110,15 @@ class KonsoleBuffer:
         content = texture_data[0]
         colors = texture_data[1]
         for y_offset in range(len(content)):
-            if pos.y + y_offset >= self.dimensions.y: continue
             line = content[y_offset]
             for x_offset in range(len(line)):
-                if pos.x + x_offset >= self.dimensions.x: continue
                 char = line[x_offset]
                 offset = Vec2(x_offset, y_offset)
                 color = colors[offset]
                 new_pos = pos + offset
+
+                #core.logging.debug(f"char at: {offset}, {color.mode_reliant(texture.color_mode) + char + Color.reset_string()}")
+
                 self.draw_char_no_color(new_pos, color.mode_reliant(texture.color_mode) + char + Color.reset_string(), draw_offsetted)
 
     def draw_rect(self, pos: Vec2, size: Vec2, draw_offsetted: bool = True, color: Color = DefaultColors.NONE.value):

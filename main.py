@@ -1,3 +1,6 @@
+import threading
+
+import core.logging
 import game.loader
 from core.texture import TextureLoader
 from core.game import SceneKonsoleBuffer, GameLoader
@@ -11,6 +14,8 @@ def main():
 
     #register game loaders
     game.loader.register_loader()
+
+    threading.current_thread().name = "Render"
 
     #Instantiate Buffer
     buffer = SceneKonsoleBuffer(Vec2(200, 50))
@@ -32,6 +37,7 @@ def main():
         print("Closing...")
         UpdateHandler.instance.quit()
         UpdateHandler.instance.join()
+        core.logging.force_flush()
         print("Closed")
 
 if __name__ == '__main__':

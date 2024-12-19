@@ -21,7 +21,7 @@ class PrisonGameLoader(GameLoader):
         SharedData.casino_scene = buffer.create_scene().set_large()
         #create player cell
         SharedData.player_cell_scene = buffer.create_scene()
-        #create hallway scene - set_large enable pseudo- camera tracking
+        #create hallway scene - set_large enable pseudo-camera tracking
         SharedData.hallway_scene = buffer.create_scene().set_large()
         SharedData.hallway_second_scene = buffer.create_scene().set_large()
         SharedData.cafeteria_scene = buffer.create_scene().set_large()
@@ -31,9 +31,21 @@ class PrisonGameLoader(GameLoader):
         SharedData.courtyard_scene = buffer.create_scene()
         SharedData.showers_scene = buffer.create_scene()
         SharedData.office_scene = buffer.create_scene()
+        SharedData.outside_scene = buffer.create_scene()
 
 
         #tutorial data
+        SharedData.casino_scene.add_object(GameObject("roof", Vec2(0, 0), Vec2(200, 2), Textured("texture/floor")))
+        SharedData.casino_scene.add_object(GameObject("floor", Vec2(0, 51), Vec2(200, 2), Textured("texture/floor")))
+        SharedData.casino_scene.add_object(GameObject("left_wall", Vec2(0, 0), Vec2(2, 55), Textured("texture/wall")))
+        SharedData.casino_scene.add_object(GameObject("right_wall_up", Vec2(198, 0), Vec2(2, 17.5), Textured("texture/wall")))
+        SharedData.casino_scene.add_object(GameObject("right_wall_down", Vec2(198, 37.5), Vec2(2, 17.5), Textured("texture/wall")))
+        SharedData.casino_scene.add_object(GameObject("wall_stair", Vec2(80, 22.5), Vec2(40, 2), Textured("texture/wall")))
+        SharedData.casino_scene.add_object(GameObject("wall_stair2", Vec2(80, 30.5), Vec2(40, 2), Textured("texture/wall")))
+        SharedData.casino_scene.add_object(GameObject("wall_stair3", Vec2(118, 22.5), Vec2(2, 10), Textured("texture/wall")))
+        SharedData.casino_scene.add_object(GameObject("roulete1", Vec2(4, 3), Vec2(16, 16), Textured("texture/ball"),ExamplePersonBehavior()))
+
+        SharedData.casino_scene.add_object(GameObject("roulete2", Vec2(4, 25), Vec2(16, 16), Textured("texture/ball")))
 
 
 
@@ -56,6 +68,9 @@ class PrisonGameLoader(GameLoader):
         SharedData.player_cell_scene.add_object(GameObject("player", Vec2(10, 10), Vec2(6, 6), PlayerBehavior(), RigidBody()))
         SharedData.player_cell_scene.add_object(GameObject("bed", Vec2(86, 3), Vec2(10, 10), Textured("texture/bed"), BedBehavior()))
         SharedData.player_cell_scene.add_object(GameObject("ball_person", Vec2(15, 30), Vec2(4, 4),Textured("texture/ball"),ExamplePersonBehavior()))
+
+        #Warden Fartimus Prime
+        SharedData.outside_scene.add_object(GameObject("Warden", Vec2(15, 20), Vec2(9, 10),Textured("texture/warden_fartimus_prime"),RigidBody()))
 
         #Hallway scene data
 
@@ -220,14 +235,14 @@ class PrisonGameLoader(GameLoader):
         )
 
         #cafeteria
-        SharedData.cafeteria_scene.add_object(GameObject("left_wall", Vec2(0, 0), Vec2(2, 50), Textured("texture/wall")))
-        SharedData.cafeteria_scene.add_object(GameObject("right_wall", Vec2(58, 0), Vec2(2, 50), Textured("texture/wall")))
-        SharedData.cafeteria_scene.add_object(GameObject("roof10", Vec2(0, 48), Vec2(60, 2), Textured("texture/floor")))
-        SharedData.cafeteria_scene.add_object(GameObject("floor_r10", Vec2(50, 0), Vec2(10, 2), Textured("texture/floor")))
-        SharedData.cafeteria_scene.add_object(GameObject("floor_l10", Vec2(0, 0), Vec2(10, 2), Textured("texture/floor")))
+        SharedData.cafeteria_scene.add_object(GameObject("left_wall", Vec2(0, 0), Vec2(2, 70), Textured("texture/wall")))
+        SharedData.cafeteria_scene.add_object(GameObject("right_wall", Vec2(98, 0), Vec2(2, 70), Textured("texture/wall")))
+        SharedData.cafeteria_scene.add_object(GameObject("roof10", Vec2(0, 68), Vec2(2, 2), Textured("texture/floor")))
+        SharedData.cafeteria_scene.add_object(GameObject("floor_r10", Vec2(70, 0), Vec2(30, 2), Textured("texture/floor")))
+        SharedData.cafeteria_scene.add_object(GameObject("floor_l10", Vec2(0, 0), Vec2(30, 2), Textured("texture/floor")))
         SharedData.cafeteria_scene.add_object(
             GameObject(
-                "cafeteria_hallway_gate", Vec2(10, 0), Vec2(40, 2),
+                "cafeteria_hallway_gate", Vec2(30, 0), Vec2(40, 2),
                 Textured("texture/gate"),
                 SceneSwapper(SharedData.hallway_second_scene, "go to second hallway","player", Vec2(160, 30))
             )

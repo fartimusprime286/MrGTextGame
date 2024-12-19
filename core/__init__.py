@@ -1,3 +1,4 @@
+import datetime
 import math
 from enum import Enum
 from typing import Self
@@ -51,6 +52,14 @@ class Color:
 
     def __str__(self):
         return f"TrueColor24Bit({self.r}, {self.g}, {self.b})"
+
+class DateRange:
+    def __init__(self, min_date: datetime.date, max_date: datetime.date):
+        self.min = min_date
+        self.max = max_date
+
+    def accepts(self, date: datetime.date):
+        return self.min <= date <= self.max
 
 NONE_COLOR = Color(-1, -1, -1)
 

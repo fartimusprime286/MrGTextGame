@@ -2,16 +2,16 @@ import datetime
 from datetime import timedelta
 from typing import cast
 
+import core.logging
 from core import Vec2, Direction, DefaultColors
 from core.behavior import Interactable
-from core.game import ObjectBehavior, GameObject, Collider, SceneKonsoleBuffer, Scene
+from core.game import ObjectBehavior, GameObject, Collider, SceneKonsoleBuffer
 from core.input import InputHandler
 from core.konsole import KonsoleBuffer
 from core.physix import RigidBody
 from core.text import TextRoot
 from data import SharedData
 from game.behavior import TextBoxBehavior
-from game.behavior.scene import SceneSwapper
 
 
 class PlayerBehavior(ObjectBehavior):
@@ -20,6 +20,8 @@ class PlayerBehavior(ObjectBehavior):
         self.facing = Direction.UP
         self._interaction_name: (str | None) = None
         InputHandler.instance.get_or_create_keybind("\\", "player").on_press(lambda buf: self._attempt_interact(buf))
+        InputHandler.instance.get_or_create_keybind("right", "player").on_press(lambda buf: self._travel_forwards(buf))
+        InputHandler.instance.get_or_create_keybind("left", "player").on_press(lambda buf: self._travel_backwards(buf))
 
     def on_load(self, buffer: KonsoleBuffer):
         pass
@@ -43,23 +45,13 @@ class PlayerBehavior(ObjectBehavior):
         if InputHandler.instance.is_key_pressed("d"):
             movement_vec.x += 1
         if InputHandler.instance.is_key_pressed("k"):
-            buffer.set_scene(SharedData.casino_scene)
-            SharedData.casino_scene.add_object(GameObject("player", Vec2(10, 10), Vec2(6, 6), PlayerBehavior(), RigidBody()))
-        if InputHandler.instance.is_key_pressed("right"):
-            if SharedData.current_date <= datetime.date(2135, 1, 1):
-                SharedData.current_date += timedelta(days=1)
-            else:
-                scene_buffer = cast(SceneKonsoleBuffer, buffer)
-                timemastertbox = TextRoot("You can travel that far forward!")
-                scene_buffer.scene().add_object(GameObject("timemaster tbox", Vec2(115, 4), Vec2(0, 0),TextBoxBehavior(timemastertbox, Vec2(70, 16), "texture/ball")))
+            scene_buffer.set_scene(SharedData.casino_scene)
+            SharedData.casino_scene.add_object(GameObject("player", Vec2(90, 30), Vec2(6, 6), PlayerBehavior(), RigidBody()))
+        if InputHandler.instance.is_key_pressed("j"):
+            scene_buffer.set_scene(SharedData.outside_scene)
+            SharedData.outside_scene.add_object(GameObject("player", Vec2(90, 30), Vec2(6, 6), PlayerBehavior(), RigidBody()))
 
-        if InputHandler.instance.is_key_pressed("left"):
-            if SharedData.current_date >= datetime.date(2132, 12, 31):
-                SharedData.current_date -= timedelta(days=1)
-            else:
-                scene_buffer = cast(SceneKonsoleBuffer, buffer)
-                timemastertbox = TextRoot("You can travel that far backward!")
-                scene_buffer.scene().add_object(GameObject("timemaster tbox", Vec2(115, 4), Vec2(0, 0),TextBoxBehavior(timemastertbox, Vec2(70, 16),"texture/ball")))
+
         rigid_body.velocity = movement_vec * Vec2(2, 1)
 
         self._update_facing(movement_vec)
@@ -71,6 +63,30 @@ class PlayerBehavior(ObjectBehavior):
 
         self._camera_track(scene_buffer)
 
+
+    def _travel_forwards(self, buffer: SceneKonsoleBuffer):
+        self._time_travel(buffer, True)
+
+    def _travel_backwards(self, buffer: SceneKonsoleBuffer):
+        self._time_travel(buffer, False)
+
+    def _time_travel(self, buffer: SceneKonsoleBuffer, forwards: bool):
+        if SharedData.disable_player_controls:
+            return
+
+        if forwards:
+            if SharedData.current_date >= datetime.date(2132, 12, 31):
+                SharedData.current_date -= timedelta(days=1)
+            else:
+                timemastertbox = TextRoot("You can't travel that far backward!")
+                buffer.scene().add_object(GameObject("timemaster_tbox", Vec2(100, 0), Vec2(0, 0),TextBoxBehavior(timemastertbox, Vec2(100, 16),"texture/ball")))
+        else:
+            if SharedData.current_date <= datetime.date(2135, 1, 1):
+                SharedData.current_date += timedelta(days=1)
+            else:
+                timemastertbox = TextRoot("You can't travel that far forward!")
+                buffer.scene().add_object(GameObject("timemaster_tbox", Vec2(100, 0), Vec2(0, 0),TextBoxBehavior(timemastertbox, Vec2(100, 16), "texture/ball")))
+
     def _camera_track(self, buffer: SceneKonsoleBuffer) -> None:
         scene = buffer.scene()
         if not scene.is_large():
@@ -80,6 +96,7 @@ class PlayerBehavior(ObjectBehavior):
         true_center = buffer.max_offsetted_dimensions / Vec2(2, 2)
         player_pos = self._parent.pos
         delta = true_center - player_pos
+        #core.logging.debug(f"DELTA: {delta}")
         buffer.offset = delta
 
     def _update_facing(self, movement_vec: Vec2):
@@ -129,6 +146,10 @@ class PlayerBehavior(ObjectBehavior):
                 texture = "texture/player/front"
 
         buffer.draw_texture(self._parent.pos, self._parent.size, texture)
+
+        if SharedData.disable_player_controls:
+            return
+
         buffer.draw_text(Vec2(104, 4), f"Current Date: {SharedData.current_date.strftime("%B, %d, %Y")}", draw_offsetted=False, color_mapper=lambda _: DefaultColors.RED.value)
         if self._interaction_name is not None:
             buffer.draw_text(Vec2(104, 6), f"Press BACKSLASH to {self._interaction_name}", draw_offsetted=False, color_mapper=lambda _: DefaultColors.RED.value)

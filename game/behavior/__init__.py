@@ -18,10 +18,11 @@ from data import SharedData
 
 
 class TextBoxBehavior(ObjectBehavior):
-    def __init__(self, text: TextRoot, size: Vec2, person : str):
+    def __init__(self, text: TextRoot, size: Vec2, person : str, character_size: Vec2 = Vec2(32, 16)):
         super().__init__()
         self.size = size
         self.person = person
+        self._character_size = character_size
         self._node: TextNode = text
         self._selected_option = 0
         self._key_zone = f"TextBox_{id(self)}"
@@ -70,18 +71,18 @@ class TextBoxBehavior(ObjectBehavior):
 
         idx = self._node.children().index(option)
         true_center = self._parent.pos + Vec2(self.size.x/2, self.size.y) + offset
-        size = (self.size / Vec2(1, 2)) - Vec2(16, 0)
+        size = (self.size / Vec2(1, 2)) - Vec2(4, 0)
         buffer.draw_texture(true_center - Vec2(size.x/2, 0), size, "texture/textbox", False)
         self._render_text_centered(option.option_text, true_center + Vec2(0, size.y / 2), buffer)
         if idx == self._selected_option:
             rect_pos = self._parent.pos + Vec2(0, self.size.y) + offset
-            buffer.draw_rect(rect_pos, Vec2(2, self.size.y / 2), False, DefaultColors.WHITE.value)
+            buffer.draw_rect(rect_pos, Vec2(2, self.size.y / 2), False, DefaultColors.RED.value)
 
     def render(self, buffer: KonsoleBuffer):
-        sizething = self.size - Vec2(16,0)
-        center = self._parent.pos + Vec2(16, 0) + (sizething / Vec2(2,2))
-        buffer.draw_texture(self._parent.pos, Vec2(16,16), self.person, False)
-        buffer.draw_texture(self._parent.pos + Vec2(16,0), sizething, draw_offsetted=False, texture_id="texture/textbox")
+        sizething = self.size - Vec2(self._character_size.x,0)
+        center = self._parent.pos + Vec2(self._character_size.x, 0) + (sizething / Vec2(2,2))
+        buffer.draw_texture(self._parent.pos, self._character_size, self.person, False)
+        buffer.draw_texture(self._parent.pos + Vec2(self._character_size.x,0), sizething, draw_offsetted=False, texture_id="texture/textbox")
         self._render_text_centered(self._node.text, center, buffer)
 
         children = self._node.children()
@@ -99,6 +100,8 @@ class TextBoxBehavior(ObjectBehavior):
 
     def while_colliding(self, other: Collider):
         pass
+
+
 class ExamplePersonBehavior(Interactable):
     def __init__(self):
         super().__init__()
@@ -125,8 +128,35 @@ class ExamplePersonBehavior(Interactable):
         ballguywords.add_child(
             TextNode("Excuse me? Why are you here??", "Why are you here?").add_child(TextNode("Oh, I am here to make ensure that \n the games text features are shown off", "Sorry, I didn't mean it rudely")).add_child(TextNode("OWW!!","*Punch it*"))
         )
-        scene_buffer.scene().add_object(GameObject("ballman tbox", Vec2(115, 4), Vec2(0, 0), TextBoxBehavior(ballguywords, Vec2(70, 16), "texture/ball")))
+        scene_buffer.scene().add_object(GameObject("ballman tbox", Vec2(100, 0), Vec2(0, 0), TextBoxBehavior(ballguywords, Vec2(100, 16), "texture/ball")))
 
     def interaction_name(self) -> str:
         return "talk to ball"
+
+class WardenBehavior(Interactable):
+    def __init__(self):
+        super().__init__()
+
+    def on_load(self, buffer: KonsoleBuffer):
+        pass
+
+    def update(self, buffer: KonsoleBuffer):
+        pass
+
+    def render(self, buffer: KonsoleBuffer):
+        pass
+
+    def while_colliding(self, other: Collider):
+        pass
+
+    def on_interact(self, buffer: KonsoleBuffer, interaction_data):
+        scene_buffer = cast(SceneKonsoleBuffer, buffer)
+        Wardenwords = TextRoot("Greeting Geoffus, I am Prime the warden of this prison.")
+        Wardenwords.add_child(
+            TextNode("Ive been here since prime fortnite... I remember those days. *sighs*", "How long have you worked here?"))
+        scene_buffer.scene().add_object(GameObject("ballman tbox", Vec2(100, 0), Vec2(0, 0), TextBoxBehavior(Wardenwords, Vec2(100, 16), "texture/ball")))
+
+    def interaction_name(self) -> str:
+        return "talk to Warden"
+
 
