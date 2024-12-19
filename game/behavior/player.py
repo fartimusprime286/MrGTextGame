@@ -10,6 +10,7 @@ from core.physix import RigidBody
 from core.text import TextRoot
 from data import SharedData
 from game.behavior import TextBoxBehavior
+from game.inventory import InventoryBehavior
 
 
 class PlayerBehavior(ObjectBehavior):
@@ -21,6 +22,8 @@ class PlayerBehavior(ObjectBehavior):
         InputHandler.instance.get_or_create_keybind("\\", "player").on_press(lambda buf: self._attempt_interact(buf))
         InputHandler.instance.get_or_create_keybind("right", "player").on_press(lambda buf: self._travel_forwards(buf))
         InputHandler.instance.get_or_create_keybind("left", "player").on_press(lambda buf: self._travel_backwards(buf))
+        InputHandler.instance.get_or_create_keybind("e", "player").on_press(lambda buf: self._open_inventory(buf))
+        InputHandler.instance.get_or_create_keybind("escape", "player").on_press(lambda buf: self._close_inventory(buf))
 
     def on_load(self, buffer: KonsoleBuffer):
         pass
@@ -67,6 +70,11 @@ class PlayerBehavior(ObjectBehavior):
 
         self._camera_track(scene_buffer)
 
+    def _open_inventory(self, buffer: SceneKonsoleBuffer):
+        buffer.scene().add_object(GameObject("inventory", Vec2(100, 96), Vec2(0, 0), InventoryBehavior()))
+
+    def _close_inventory(self, buffer: SceneKonsoleBuffer):
+        buffer.scene().remove_object("inventory")
 
     def _travel_forwards(self, buffer: SceneKonsoleBuffer):
         self._time_travel(buffer, True)
