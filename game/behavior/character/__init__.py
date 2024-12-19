@@ -102,3 +102,66 @@ class GretchenProxyBehavior(Interactable):
 
     def while_colliding(self, other: Collider):
         pass
+
+'''class Geff(BaseTalkingCharacterBehavior):
+    segment_list: list[date] = []
+
+    def create_text(self, buffer: SceneKonsoleBuffer) -> TextRoot:
+        
+        def award_random_item():
+            if SharedData.current_date <= date(2133,3,31) and SharedData.current_date >= date(1,1,1):
+                Inventory.add_item("Paper Airplane")
+            if SharedData.current_date <= date(2133,6,30) and SharedData.current_date >= date(2133,4,1):
+                Inventory.add_item("Lint")
+            if SharedData.current_date <= date(2133,9,31) and SharedData.current_date >= date(2133,7,1):
+                Inventory.add_item("Gamma Blaster (with no ammo)")
+            if SharedData.current_date <= date(2133,12,31) and SharedData.current_date >= date(2133,10,1):
+                Inventory.add_item("Teddy Bear")
+            if SharedData.current_date <= date(2134,3,31) and SharedData.current_date >= date(2134,1,1):
+                Inventory.add_item("Jar with Mystery Liquid")
+            if SharedData.current_date <= date(2134,6,30) and SharedData.current_date >= date(2134,4,1):
+                Inventory.add_item("Woopie Cushion")
+            if SharedData.current_date <= date(2134,9,31) and SharedData.current_date >= date(2134,7,1):
+                Inventory.add_item("Crowbar")
+            if SharedData.current_date <= date(9999,12,31) and SharedData.current_date >= date(2134,10,1):
+                Inventory.add_item("Beating Heart")
+                pass
+
+        if SharedData.current_date in Geff.date_list:
+            
+            root = (TextRoot("Come back another day kid.\n(Gretchen's favorability towards you has fallen)")
+                    .with_action(lambda obj, buf: modify_favorability(-5)))
+            return root
+
+        #If gretchen favors you, she'll offer you a knife, if you decline she'll favor you drastically less
+        if CharacterFavorability.favorability_exceeds_threshold("geff", 30):
+            root = TextRoot("Hey kid I got something for you.")
+            root.add_child(TextNode(
+                "Don't let the world stop ya kid.\n(Acquired knife)",
+                "accept",
+                lambda obj, buf: award_random_item()
+            )).add_child(TextNode(
+                "Tch, you really just\ndon't got what it takes do ya.\n(Gretchen's favorability towards you has fallen massively)",
+                "reject",
+            ))
+        return root
+
+    def character(self, buffer: SceneKonsoleBuffer) -> str:
+        return "geff"
+
+    def interaction_name(self) -> str:
+        return f"talk to Geff the Robo Guard"
+
+    def on_load(self, buffer: KonsoleBuffer):
+        pass
+
+    def update(self, buffer: KonsoleBuffer):
+        pass
+
+    def render(self, buffer: KonsoleBuffer):
+        pass
+
+    def while_colliding(self, other: Collider):
+        pass
+
+'''
