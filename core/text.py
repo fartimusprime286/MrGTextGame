@@ -10,8 +10,9 @@ class TextNode:
         self._children: list[TextNode] = []
         self._action: Callable[[GameObject, SceneKonsoleBuffer], None] = action
 
-    def with_action(self, action: Callable[[GameObject, SceneKonsoleBuffer], None] = lambda: None):
+    def with_action(self, action: Callable[[GameObject, SceneKonsoleBuffer], None] = lambda: None) -> Self:
         self._action = action
+        return self
 
     def add_child(self, child: Self) -> Self:
         self._children.append(child)

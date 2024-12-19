@@ -5,6 +5,7 @@ from winsound import PlaySound
 from core import Vec2
 from core.behavior import Textured
 from game.behavior.bed import BedBehavior
+from game.behavior.character import Gretchen, GretchenProxyBehavior
 from game.behavior.scene import SceneSwapper
 from core.physix import RigidBody
 from game.behavior.player import PlayerBehavior
@@ -247,6 +248,9 @@ class PrisonGameLoader(GameLoader):
                 SceneSwapper(SharedData.hallway_second_scene, "go to second hallway","player", Vec2(160, 30))
             )
         )
+
+        SharedData.cafeteria_scene.add_object(GameObject("gretchen", Vec2(44, 50), Vec2(10, 10), Gretchen()))
+        SharedData.cafeteria_scene.add_object(GameObject("gretchens_table", Vec2(34, 46), Vec2(30, 3), Textured("texture/table"), GretchenProxyBehavior()))
 
         #office
         SharedData.office_scene.add_object(GameObject("roof", Vec2(0, 0), Vec2(100, 2), Textured("texture/floor")))

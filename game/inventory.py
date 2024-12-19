@@ -12,8 +12,9 @@ class Inventory:
     def add_item(item: str):
         Inventory.items.append(item)
 
-    def has_item(self, item: str) -> bool:
-        return item in self.items
+    @staticmethod
+    def has_item(item: str) -> bool:
+        return item in Inventory.items
 
 class InventoryBehavior(ObjectBehavior):
     ITEM_BG_TEXTURE = "texture/textbox"
