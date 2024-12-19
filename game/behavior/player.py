@@ -4,13 +4,14 @@ from typing import cast
 
 from core import Vec2, Direction, DefaultColors
 from core.behavior import Interactable
-from core.game import ObjectBehavior, GameObject, Collider, SceneKonsoleBuffer
+from core.game import ObjectBehavior, GameObject, Collider, SceneKonsoleBuffer, Scene
 from core.input import InputHandler
 from core.konsole import KonsoleBuffer
 from core.physix import RigidBody
 from core.text import TextRoot
 from data import SharedData
 from game.behavior import TextBoxBehavior
+from game.behavior.scene import SceneSwapper
 
 
 class PlayerBehavior(ObjectBehavior):
@@ -41,6 +42,9 @@ class PlayerBehavior(ObjectBehavior):
             movement_vec.y += 1
         if InputHandler.instance.is_key_pressed("d"):
             movement_vec.x += 1
+        if InputHandler.instance.is_key_pressed("k"):
+            buffer.set_scene(SharedData.casino_scene)
+            SharedData.casino_scene.add_object(GameObject("player", Vec2(10, 10), Vec2(6, 6), PlayerBehavior(), RigidBody()))
         if InputHandler.instance.is_key_pressed("right"):
             if SharedData.current_date <= datetime.date(2135, 1, 1):
                 SharedData.current_date += timedelta(days=1)

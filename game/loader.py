@@ -33,6 +33,10 @@ class PrisonGameLoader(GameLoader):
         SharedData.office_scene = buffer.create_scene()
 
 
+        #tutorial data
+
+
+
         #player cell scene data
         SharedData.player_cell_scene.add_object(GameObject("roof", Vec2(0, 0), Vec2(100, 2), Textured("texture/floor")))
         SharedData.player_cell_scene.add_object(GameObject("left_wall", Vec2(0, 0), Vec2(2, 40), Textured("texture/wall")))
