@@ -1,12 +1,14 @@
 from datetime import datetime, date
+from typing import cast
 
+from core.behavior import Interactable
 from core.game import Collider, SceneKonsoleBuffer
 from core.konsole import KonsoleBuffer
 from core.text import TextRoot, TextNode
 from data import SharedData
-from game.behavior.psuedoinv import Inventory
 from game.behavior.text import BaseTalkingCharacterBehavior
 from game.character import CharacterFavorability
+from game.inventory import Inventory
 
 
 class Gretchen(BaseTalkingCharacterBehavior):
@@ -57,6 +59,35 @@ class Gretchen(BaseTalkingCharacterBehavior):
 
     def interaction_name(self) -> str:
         return f"talk to Gretchen (Favorability: {CharacterFavorability.favorability("gretchen")})"
+
+    def on_load(self, buffer: KonsoleBuffer):
+        pass
+
+    def update(self, buffer: KonsoleBuffer):
+        pass
+
+    def render(self, buffer: KonsoleBuffer):
+        buffer.draw_texture(self._parent.pos, self._parent.size, "texture/character/standing/gretchen")
+
+    def while_colliding(self, other: Collider):
+        pass
+
+class GretchenProxyBehavior(Interactable):
+    def on_interact(self, buffer: KonsoleBuffer, interaction_data):
+        scene_buffer = cast(SceneKonsoleBuffer, buffer)
+        gretchen = scene_buffer.scene().get_object("gretchen")
+        if gretchen is None:
+            return
+
+        candidates = gretchen.get_behavior_by_type(Gretchen)
+        if len(candidates) == 0:
+            return
+
+        gretchen_behavior = candidates[0]
+        gretchen_behavior.on_interact(gretchen_behavior, self)
+
+    def interaction_name(self) -> str:
+        return "talk to Gretchen"
 
     def on_load(self, buffer: KonsoleBuffer):
         pass

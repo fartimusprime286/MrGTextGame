@@ -1,5 +1,5 @@
 {
-    "texture_location": "res/texture/gretchen.png",
+    "texture_location": "res/texture/character/gretchen.png",
     "color_mode": "background",
     "color_to_char": { }
 }
