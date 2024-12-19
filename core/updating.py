@@ -19,7 +19,7 @@ class UpdateHandler:
         self._buffer = buffer
         self._tick_rate = 20
         self._time_stack = TimeStack()
-        self._thread: (Thread | None) = None-0
+        self._thread: (Thread | None) = None
         self._stop_running = Event()
 
     def set_tick_rate(self, tick_rate):

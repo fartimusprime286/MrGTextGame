@@ -2,7 +2,7 @@ from typing import Self, Callable
 
 
 class TextNode:
-    def __init__(self, text: str, option_name: str, event: Callable[[Self], None]):
+    def __init__(self, text: str, option_name: str):
         self.text = text
         self.option_text = option_name
         self._children: list[TextNode] = []
@@ -38,3 +38,4 @@ class TextRoot(TextNode):
         return self._children
 
 blah = TextRoot("blah")
+#, event: Callable[[Self], None]

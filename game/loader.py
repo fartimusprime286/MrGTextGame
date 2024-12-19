@@ -17,6 +17,8 @@ class PrisonGameLoader(GameLoader):
     def on_make_buffer(self, buffer: SceneKonsoleBuffer):
 
 
+        #tutorial scene
+        SharedData.casino_scene = buffer.create_scene().set_large()
         #create player cell
         SharedData.player_cell_scene = buffer.create_scene()
         #create hallway scene - set_large enable pseudo- camera tracking
@@ -209,14 +211,14 @@ class PrisonGameLoader(GameLoader):
             GameObject(
                 "office_gate", Vec2(90, 0), Vec2(20, 2),
                 Textured("texture/gate"),
-                SceneSwapper(SharedData.office_scene, "go to office","player", Vec2(20, 25))
+                SceneSwapper(SharedData.office_scene, "go to office","player", Vec2(80, 30))
             )
         )
 
         #cafeteria
-        SharedData.cafeteria_scene.add_object(GameObject("left_wall", Vec2(0, 0), Vec2(2, 80), Textured("texture/wall")))
-        SharedData.cafeteria_scene.add_object(GameObject("right_wall", Vec2(58, 0), Vec2(2, 80), Textured("texture/wall")))
-        SharedData.cafeteria_scene.add_object(GameObject("roof10", Vec2(0, 78), Vec2(60, 2), Textured("texture/floor")))
+        SharedData.cafeteria_scene.add_object(GameObject("left_wall", Vec2(0, 0), Vec2(2, 50), Textured("texture/wall")))
+        SharedData.cafeteria_scene.add_object(GameObject("right_wall", Vec2(58, 0), Vec2(2, 50), Textured("texture/wall")))
+        SharedData.cafeteria_scene.add_object(GameObject("roof10", Vec2(0, 48), Vec2(60, 2), Textured("texture/floor")))
         SharedData.cafeteria_scene.add_object(GameObject("floor_r10", Vec2(50, 0), Vec2(10, 2), Textured("texture/floor")))
         SharedData.cafeteria_scene.add_object(GameObject("floor_l10", Vec2(0, 0), Vec2(10, 2), Textured("texture/floor")))
         SharedData.cafeteria_scene.add_object(
