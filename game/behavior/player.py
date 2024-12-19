@@ -1,8 +1,6 @@
-import datetime
-from datetime import timedelta
+from datetime import timedelta, datetime
 from typing import cast
 
-import core.logging
 from core import Vec2, Direction, DefaultColors
 from core.behavior import Interactable
 from core.game import ObjectBehavior, GameObject, Collider, SceneKonsoleBuffer
@@ -81,13 +79,13 @@ class PlayerBehavior(ObjectBehavior):
             return
 
         if forwards:
-            if SharedData.current_date >= datetime.date(2132, 12, 31):
+            if SharedData.current_date >= datetime(2132, 12, 31):
                 SharedData.current_date -= timedelta(days=1)
             else:
                 timemastertbox = TextRoot("You can't travel that far backward!")
                 buffer.scene().add_object(GameObject("timemaster_tbox", Vec2(100, 0), Vec2(0, 0),TextBoxBehavior(timemastertbox, Vec2(100, 16),"texture/ball")))
         else:
-            if SharedData.current_date <= datetime.date(2135, 1, 1):
+            if SharedData.current_date <= datetime(2135, 1, 1):
                 SharedData.current_date += timedelta(days=1)
             else:
                 timemastertbox = TextRoot("You can't travel that far forward!")
