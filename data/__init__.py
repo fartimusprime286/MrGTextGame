@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime
 
 from core.game import Scene
 
@@ -17,4 +17,4 @@ class SharedData:
     office_scene: Scene
     casino_scene: Scene
     outside_scene: Scene
-    current_date = datetime.date(2134, 1, 1)
+    current_date = datetime(2134, 1, 1)

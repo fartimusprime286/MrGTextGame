@@ -19,6 +19,7 @@ class PlayerBehavior(ObjectBehavior):
         super().__init__()
         self.facing = Direction.UP
         self._interaction_name: (str | None) = None
+        self._ticks_since_update_time = 0
         InputHandler.instance.get_or_create_keybind("\\", "player").on_press(lambda buf: self._attempt_interact(buf))
         InputHandler.instance.get_or_create_keybind("right", "player").on_press(lambda buf: self._travel_forwards(buf))
         InputHandler.instance.get_or_create_keybind("left", "player").on_press(lambda buf: self._travel_backwards(buf))
@@ -29,6 +30,11 @@ class PlayerBehavior(ObjectBehavior):
     def update(self, buffer: KonsoleBuffer):
         if SharedData.disable_player_controls:
             return
+
+        self._ticks_since_update_time += 1
+        if self._ticks_since_update_time >= 10:
+            SharedData.current_date += timedelta(minutes=1)
+            self._ticks_since_update_time = 0
 
         parent = cast(GameObject, self._parent)
         movement_vec = Vec2(0, 0)
@@ -150,7 +156,7 @@ class PlayerBehavior(ObjectBehavior):
         if SharedData.disable_player_controls:
             return
 
-        buffer.draw_text(Vec2(104, 4), f"Current Date: {SharedData.current_date.strftime("%B, %d, %Y")}", draw_offsetted=False, color_mapper=lambda _: DefaultColors.RED.value)
+        buffer.draw_text(Vec2(104, 4), f"Current Date: {SharedData.current_date.strftime("%B %d, %Y, %H:%M (%A)")}", draw_offsetted=False, color_mapper=lambda _: DefaultColors.RED.value)
         if self._interaction_name is not None:
             buffer.draw_text(Vec2(104, 6), f"Press BACKSLASH to {self._interaction_name}", draw_offsetted=False, color_mapper=lambda _: DefaultColors.RED.value)
 

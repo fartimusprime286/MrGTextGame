@@ -1,11 +1,17 @@
 from typing import Self, Callable
 
+from core.game import SceneKonsoleBuffer, GameObject
+
 
 class TextNode:
-    def __init__(self, text: str, option_name: str):
+    def __init__(self, text: str, option_name: str, action: Callable[[GameObject, SceneKonsoleBuffer], None] = lambda obj, buf: None):
         self.text = text
         self.option_text = option_name
         self._children: list[TextNode] = []
+        self._action: Callable[[GameObject, SceneKonsoleBuffer], None] = action
+
+    def with_action(self, action: Callable[[GameObject, SceneKonsoleBuffer], None] = lambda: None):
+        self._action = action
 
     def add_child(self, child: Self) -> Self:
         self._children.append(child)
@@ -14,21 +20,13 @@ class TextNode:
     def children(self) -> list[Self]:
         return self._children
 
-    def fruit(self):
-        #ballguywords.add_child(
-        #   TextNode("The Tales of Geoffus: The Sequel, \n Prequel, and Original",
-        #            "What is the game called?").add_child(
-        #       TextNode("Thank you very much", "Wow, that name is awesome")).add_child(
-        #       TextNode("Go away hater", "Wow, that name sucks"))
-        #)
-        pass
+    def on_selected(self, game_object: GameObject, buffer: SceneKonsoleBuffer):
+        self._action(game_object, buffer)
 
 
 class TextRoot(TextNode):
     def __init__(self, text: str):
         super().__init__(text, "root")
-        self.text = text
-        self._children: list[TextNode] = []
 
     def add_child(self, child: TextNode) -> Self:
         self._children.append(child)
@@ -37,5 +35,5 @@ class TextRoot(TextNode):
     def children(self) -> list[TextNode]:
         return self._children
 
-blah = TextRoot("blah")
+#blah = TextRoot("blah")
 #, event: Callable[[Self], None]
