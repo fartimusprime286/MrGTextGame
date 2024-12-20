@@ -12,7 +12,7 @@ from data import SharedData
 
 
 class TextBoxBehavior(ObjectBehavior):
-    def __init__(self, text: TextRoot, person : str, character_size: Vec2 = Vec2(32, 16)):
+    def __init__(self, text: TextRoot, person: (str | None) = None, character_size: Vec2 = Vec2(32, 16)):
         super().__init__()
         self.person = person
         self._character_size = character_size
@@ -84,10 +84,18 @@ class TextBoxBehavior(ObjectBehavior):
             buffer.draw_rect(rect_pos, Vec2(2, self._parent.size.y / 2), False, DefaultColors.RED.value)
 
     def render(self, buffer: KonsoleBuffer):
-        sizething = self._parent.size - Vec2(self._character_size.x,0)
-        center = self._parent.pos + Vec2(self._character_size.x, 0) + (sizething / Vec2(2,2))
-        buffer.draw_texture(self._parent.pos, self._character_size, self.person, False)
-        buffer.draw_texture(self._parent.pos + Vec2(self._character_size.x,0), sizething, draw_offsetted=False, texture_id="texture/textbox")
+        box_size = self._parent.size
+        center = self._parent.pos + (box_size / Vec2(2,2))
+        box_pos = self._parent.pos
+        if self.person is not None:
+            box_size -= Vec2(self._character_size.x,0)
+            center += Vec2(self._character_size.x, 0)
+            box_pos += Vec2(self._character_size.x, 0)
+            buffer.draw_texture(self._parent.pos, self._character_size, self.person, False)
+
+
+
+        buffer.draw_texture(box_pos, box_size, draw_offsetted=False, texture_id="texture/textbox")
         self._render_text_centered(self._node.text, center, buffer)
 
         children = self._node.children()

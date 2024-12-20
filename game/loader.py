@@ -1,7 +1,3 @@
-import time
-import winsound
-from winsound import PlaySound
-
 from core import Vec2
 from core.behavior import Textured
 from game.behavior.bed import BedBehavior
@@ -12,6 +8,7 @@ from game.behavior.player import PlayerBehavior
 from core.game import GameLoader, SceneKonsoleBuffer, GameObject
 from data import SharedData
 from game.behavior import ExamplePersonBehavior
+from game.behavior.showers import ShowersGate, Vent
 
 
 class PrisonGameLoader(GameLoader):
@@ -33,6 +30,7 @@ class PrisonGameLoader(GameLoader):
         SharedData.showers_scene = buffer.create_scene()
         SharedData.office_scene = buffer.create_scene()
         SharedData.outside_scene = buffer.create_scene()
+        SharedData.vent_scene = buffer.create_scene().set_large()
 
 
         #tutorial data
@@ -224,7 +222,7 @@ class PrisonGameLoader(GameLoader):
             GameObject(
                 "showers_gate", Vec2(150, 0), Vec2(20, 2),
                 Textured("texture/gate"),
-                SceneSwapper(SharedData.showers_scene, "go to showers","player", Vec2(20, 25))
+                ShowersGate(SharedData.showers_scene, "go to showers","player", Vec2(20, 25))
             )
         )
         SharedData.hallway_second_scene.add_object(
@@ -280,6 +278,20 @@ class PrisonGameLoader(GameLoader):
             )
         )
 
+        #shower vent
+        SharedData.showers_scene.add_object(GameObject(
+            "vent",
+            Vec2(4, 2),
+            Vec2(16, 8),
+            Textured("texture/vent"),
+            Vent(SharedData.vent_scene, "enter vent", "player", Vec2(82, 2))
+        ))
+
+        #vent scene
+        SharedData.vent_scene.add_object(GameObject("roof",       Vec2(0, 0),   Vec2(100, 2), Textured("texture/floor")))
+        SharedData.vent_scene.add_object(GameObject("floor",      Vec2(0, 14),  Vec2(100, 2), Textured("texture/floor")))
+        SharedData.vent_scene.add_object(GameObject("left_wall",  Vec2(0, 0),   Vec2(2, 14),  Textured("texture/wall")))
+        SharedData.vent_scene.add_object(GameObject("right_wall", Vec2(98, 0),  Vec2(2, 14),  Textured("texture/wall")))
 
         buffer.set_scene(SharedData.player_cell_scene)
 
