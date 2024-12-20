@@ -38,31 +38,3 @@ class ExamplePersonBehavior(Interactable):
 
     def interaction_name(self) -> str:
         return "talk to ball"
-
-class WardenBehavior(Interactable):
-    def __init__(self):
-        super().__init__()
-
-    def on_load(self, buffer: KonsoleBuffer):
-        pass
-
-    def update(self, buffer: KonsoleBuffer):
-        pass
-
-    def render(self, buffer: KonsoleBuffer):
-        pass
-
-    def while_colliding(self, other: Collider):
-        pass
-
-    def on_interact(self, buffer: KonsoleBuffer, interaction_data):
-        scene_buffer = cast(SceneKonsoleBuffer, buffer)
-        Wardenwords = TextRoot("Greeting Geoffus, I am Prime the warden of this prison.")
-        Wardenwords.add_child(
-            TextNode("Ive been here since prime fortnite... I remember those days. *sighs*", "How long have you worked here?"))
-        scene_buffer.scene().add_object(GameObject("ballman tbox", Vec2(100, 0), Vec2(0, 0), TextBoxBehavior(Wardenwords, Vec2(100, 16), "texture/ball")))
-
-    def interaction_name(self) -> str:
-        return "talk to Warden"
-
-

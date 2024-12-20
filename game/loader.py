@@ -70,8 +70,8 @@ class PrisonGameLoader(GameLoader):
         SharedData.player_cell_scene.add_object(GameObject("bed", Vec2(86, 3), Vec2(10, 10), Textured("texture/bed"), BedBehavior()))
         SharedData.player_cell_scene.add_object(GameObject("ball_person", Vec2(15, 30), Vec2(4, 4),Textured("texture/ball"),ExamplePersonBehavior()))
 
-        #Warden Fartimus Prime
-        SharedData.outside_scene.add_object(GameObject("Warden", Vec2(15, 20), Vec2(9, 10),Textured("texture/warden_fartimus_prime"),RigidBody()))
+        #Warden
+        SharedData.outside_scene.add_object(GameObject("warden", Vec2(15, 20), Vec2(9, 10),Textured("texture/warden_fartimus_prime")))
 
         #Hallway scene data
 

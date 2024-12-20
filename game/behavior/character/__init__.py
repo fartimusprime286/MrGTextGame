@@ -116,35 +116,35 @@ class Geff(BaseTalkingCharacterBehavior):
             if SharedData.current_date <= datetime(2133,3,31) and SharedData.current_date >= datetime(1,1,1):
                 Inventory.add_item("paper_airplane")
                 for i in range(0,90):
-                    Geff.date_list.append(datetime(2133,1,1) + timedelta(days=i))
+                    Geff.date_list.append(date(2133,1,1) + timedelta(days=i))
             if SharedData.current_date <= datetime(2133,6,30) and SharedData.current_date >= datetime(2133,4,1):
                 Inventory.add_item("lint")
                 for i in range(0,91):
-                    Geff.date_list.append(datetime(2133,4,1) + timedelta(days=i))
+                    Geff.date_list.append(date(2133,4,1) + timedelta(days=i))
             if SharedData.current_date <= datetime(2133,9,30) and SharedData.current_date >= datetime(2133,7,1):
                 Inventory.add_item("uncharged_gun")
                 for i in range(0,92):
-                    Geff.date_list.append(datetime(2133,7,1) + timedelta(days=i))
+                    Geff.date_list.append(date(2133,7,1) + timedelta(days=i))
             if SharedData.current_date <= datetime(2133,12,31) and SharedData.current_date >= datetime(2133,10,1):
                 Inventory.add_item("teddy_bear")
                 for i in range(0,92):
-                    Geff.date_list.append(datetime(2133,10,1) + timedelta(days=i))
+                    Geff.date_list.append(date(2133,10,1) + timedelta(days=i))
             if SharedData.current_date <= datetime(2134,3,31) and SharedData.current_date >= datetime(2134,1,1):
                 Inventory.add_item("mysterious_liquid")
                 for i in range(0,90):
-                    Geff.date_list.append(datetime(2134,1,1) + timedelta(days=i))
+                    Geff.date_list.append(date(2134,1,1) + timedelta(days=i))
             if SharedData.current_date <= datetime(2134,6,30) and SharedData.current_date >= datetime(2134,4,1):
                 Inventory.add_item("whoopie_cushion")
                 for i in range(0,91):
-                    Geff.date_list.append(datetime(2134,4,1) + timedelta(days=i))
+                    Geff.date_list.append(date(2134,4,1) + timedelta(days=i))
             if SharedData.current_date <= datetime(2134,9,30) and SharedData.current_date >= datetime(2134,7,1):
                 Inventory.add_item("crowbar")
                 for i in range(0,92):
-                    Geff.date_list.append(datetime(2134,7,1) + timedelta(days=i))
+                    Geff.date_list.append(date(2134,7,1) + timedelta(days=i))
             if SharedData.current_date <= datetime(9999,12,31) and SharedData.current_date >= datetime(2134,10,1):
                 Inventory.add_item("ball")
                 for i in range(0,92):
-                    Geff.date_list.append(datetime(2134,10,1) + timedelta(days=i))
+                    Geff.date_list.append(date(2134,10,1) + timedelta(days=i))
 
 
         if not CharacterFavorability.favorability_exceeds_threshold("geff", -10):
