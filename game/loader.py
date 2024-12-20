@@ -293,9 +293,9 @@ class PrisonGameLoader(GameLoader):
         SharedData.vent_scene.add_object(GameObject("floor",      Vec2(0, 14),  Vec2(100, 2), Textured("texture/floor")))
         SharedData.vent_scene.add_object(GameObject(
             "left_wall",
-            Vec2(0, 0),
-            Vec2(2, 14),
-            Textured("texture/wall"),
+            Vec2(0, 2),
+            Vec2(2, 12),
+            Textured("texture/gate"),
             SceneSwapper(SharedData.office_scene, "exit vents (office)", "player", Vec2(10, 10))
         ))
 
