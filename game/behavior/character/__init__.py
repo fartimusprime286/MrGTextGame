@@ -1,3 +1,5 @@
+import winsound
+
 from datetime import date, timedelta, datetime
 from typing import cast
 
@@ -144,14 +146,15 @@ class Geff(BaseTalkingCharacterBehavior):
                 for i in range(0,92):
                     Geff.date_list.append(datetime(2134,10,1) + timedelta(days=i))
 
-        if SharedData.current_date in Geff.date_list:
-            root = (TextRoot("Wait another three months bub. You get " + str(9 + (CharacterFavorability.favorability("geff"))) +" more chances" "\n(Geff got a little more angry)")
-                    .with_action(lambda obj, buf: modify_favorability(-1)))
-            return root
 
-        #If gretchen favors you, she'll offer you a knife, if you decline she'll favor you drastically less
         if not CharacterFavorability.favorability_exceeds_threshold("geff", -10):
-            exit("Shouldnt have messed with him...")
+            exit("Shouldnt have messed with him... (Made Geff Mad Ending)")
+
+        elif SharedData.current_date.date() in Geff.date_list:
+            root = (TextRoot("Wait another three months bub. You've got " + str(9 + (
+                CharacterFavorability.favorability("geff"))) + " more chances" "\n(Geff got a little more angry)")
+                    .with_action(lambda obj, buf: modify_favorability(-1)))
+
         else:
             root = TextRoot("Want a free trinket?")
             root.add_child(TextNode(
@@ -160,8 +163,9 @@ class Geff(BaseTalkingCharacterBehavior):
                 lambda obj, buf: award_random_item()
             )).add_child(TextNode(
                 "Alrighty then.",
-                "reject",
+                "I dont take things from strangers",
             ))
+
         return root
 
     def character(self, buffer: SceneKonsoleBuffer) -> str:
