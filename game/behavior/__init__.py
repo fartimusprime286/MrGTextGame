@@ -64,24 +64,30 @@ class RouletteBehavior(Interactable):
     def on_interact(self, buffer: KonsoleBuffer, interaction_data):
         scene_buffer = cast(SceneKonsoleBuffer, buffer)
         global UsedRoulette
+        def modify_UsedRoulette(e):
+            global UsedRoulette
+            UsedRoulette += e
+        def Player_cell_teleport():
+            SceneSwapper(SharedData.player_cell_scene, "go to player cell", "player", Vec2(40, 20))
         if SharedData.current_date > datetime(2134, 1, 1, hour=15, minute=30):
             if UsedRoulette == 0:
                 roulettefeedback = TextRoot("Would you like to play roulette? \n Arrow keys to scroll, enter to select")
                 roulettefeedback.add_child(
-                    TextNode("Dang it landed red better luck next time", "Yes (Put everything on black").add_child(TextNode("(Thinking) Im upset now lets go back a couple minutes \n Use <- to go to the past \n Use -> to go to the future", "Leave")))
+                    TextNode("Dang it landed red better luck next time", "Yes (Put everything on black").add_child(TextNode("(Thinking) Im upset now lets go back a couple minutes \n Use <- to go to the past \n Use -> to go to the future", "Leave", lambda obj, buf: modify_UsedRoulette(1))))
 
-                roulettefeedback.add_child(TextNode("Dang it landed red better luck next time", "Definitely (Put everything on black").add_child(TextNode("(Thinking) Im upset now lets go back a couple minutes \n Use <- to go to the past \n Use -> to go to the future", "Leave")))
-                roulettefeedback.add_child(TextNode("Dang it landed red better luck next time", "Absolutely (Put everything on black").add_child(TextNode("(Thinking) Im upset now lets go back a couple minutes \n Use <- to go to the past \n Use -> to go to the future", "Leave")))
+                roulettefeedback.add_child(TextNode("Dang it landed red better luck next time", "Definitely (Put everything on black").add_child(TextNode(
+                    "(Thinking) Im upset now lets go back a couple minutes \n Use <- to go to the past \n Use -> to go to the future",
+                    "Leave", lambda obj, buf: modify_UsedRoulette(1))))
+                roulettefeedback.add_child(TextNode("Dang it landed red better luck next time", "Absolutely (Put everything on black").add_child(TextNode("(Thinking) Im upset now lets go back a couple minutes \n Use <- to go to the past \n Use -> to go to the future", "Leave", lambda obj, buf: modify_UsedRoulette(1))))
                 scene_buffer.scene().add_object(GameObject("roulette_tbox", Vec2(100, 0), Vec2(100, 16), TextBoxBehavior(roulettefeedback, "texture/roulette_table")))
-                UsedRoulette = 2
             else:
                 roulettefeedback = TextRoot("(Thinking) Let me rewind first \n Remember \n Use <- to go to the past \n Use -> to go to the future")
                 scene_buffer.scene().add_object(GameObject("roulette_tbox", Vec2(100, 0), Vec2(100, 16), TextBoxBehavior(roulettefeedback, "texture/roulette_table")))
         else:
             roulettefeedback = TextRoot("Would you like to play roulette? \n Arrow keys to scroll, enter to select")
             roulettefeedback.add_child(
-                TextNode("You have been caught cheating Geoffus", "Yes (Play red").add_child(TextNode("You are now imprisoned for you entire meaningless lifetime","Oh no").add_child(TextNode("(Thinking) I can't stay here forever, i have to use my powers to escape \n I can now travel in days but only up to a year"))))
-            scene_buffer.scene().add_object(GameObject("roulette_tbox", Vec2(100, 0), Vec2(100, 16), TextBoxBehavior(roulettefeedback, "texture/ball")))
+                TextNode("You have been caught cheating Geoffus", "Yes (Play red").add_child(TextNode("You are now imprisoned for you entire meaningless lifetime","Oh no").add_child(TextNode("(Thinking) I can't stay here forever, i have to use my powers to escape \n I can now travel in days but only up to a year", "", lambda obj, buf: Player_cell_teleport()))))
+            scene_buffer.scene().add_object(GameObject("roulette_tbox", Vec2(100, 0), Vec2(100, 16), TextBoxBehavior(roulettefeedback, "texture/police")))
 
     def interaction_name(self) -> str:
         return "use roulette table"

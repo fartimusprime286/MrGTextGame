@@ -46,7 +46,11 @@ class PrisonGameLoader(GameLoader):
         SharedData.casino_scene.add_object(GameObject("left_wall", Vec2(0, 0), Vec2(2, 53), Textured("texture/wall")))
         SharedData.casino_scene.add_object(GameObject("right_wall_up", Vec2(198, 0), Vec2(2, 17.5), Textured("texture/wall")))
         SharedData.casino_scene.add_object(GameObject("right_wall_down", Vec2(198, 37.5), Vec2(2, 15.5), Textured("texture/wall")))
-        SharedData.casino_scene.add_object(GameObject("casino_closed_gate", Vec2(198, 17.5), Vec2(2, 20), Textured("texture/gate")))
+        SharedData.casino_scene.add_object(
+            GameObject(
+                "casino_closed_gate", Vec2(198, 17.5), Vec2(2, 20),
+                Textured("texture/gate"),
+                SceneSwapper(SharedData.player_cell_scene, "go to player cell","player", Vec2(40, 20))))
         SharedData.casino_scene.add_object(GameObject("wall_stair", Vec2(80, 22.5), Vec2(40, 2), Textured("texture/wall")))
         SharedData.casino_scene.add_object(GameObject("wall_stair2", Vec2(80, 30.5), Vec2(40, 2), Textured("texture/wall")))
         SharedData.casino_scene.add_object(GameObject("wall_stair3", Vec2(118, 22.5), Vec2(2, 10), Textured("texture/wall")))
@@ -85,8 +89,7 @@ class PrisonGameLoader(GameLoader):
         begfeedback = TextRoot("Let's go gambling! how about some roulette \n Use wasd to move around and backslash to interact \n Press enter to continue")
         SharedData.casino_scene.add_object(GameObject("tbox", Vec2(10, 10), Vec2(90, 30),TextBoxBehavior(begfeedback)))
 
-        SharedData.player_cell_scene.add_object(GameObject("bed", Vec2(86, 3), Vec2(10, 10), Textured("texture/bed")))
-        SharedData.player_cell_scene.add_object(GameObject("bed", Vec2(86, 3), Vec2(10, 10), Textured("texture/bed")))
+        SharedData.player_cell_scene.add_object(GameObject("bed", Vec2(86, 3), Vec2(10, 10), Textured("texture/bed"), BedBehavior()))
         SharedData.player_cell_scene.add_object(GameObject("ball_person", Vec2(15, 30), Vec2(4, 4),Textured("texture/ball"),ExamplePersonBehavior()))
 
         #Warden
