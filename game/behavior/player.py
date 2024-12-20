@@ -87,13 +87,13 @@ class PlayerBehavior(ObjectBehavior):
             return
 
         if forwards:
-            if SharedData.current_date >= datetime(2132, 12, 31):
+            if SharedData.current_date <= datetime(2134, 12, 31):
                 SharedData.current_date += timedelta(days=1)
             else:
                 timemastertbox = TextRoot("You can't travel that far forward!")
                 buffer.scene().add_object(GameObject("timemaster_tbox", Vec2(100, 0), Vec2(100, 16),TextBoxBehavior(timemastertbox,"texture/ball")))
         else:
-            if SharedData.current_date <= datetime(2135, 1, 1):
+            if SharedData.current_date >= datetime(2133, 1, 1):
                 SharedData.current_date -= timedelta(days=1)
             else:
                 timemastertbox = TextRoot("You can't travel that far backward!")
