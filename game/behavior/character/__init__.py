@@ -178,7 +178,7 @@ class Geff(BaseTalkingCharacterBehavior):
         pass
 
     def render(self, buffer: KonsoleBuffer):
-        buffer.draw_texture(self._parent.pos, self._parent.size, "texture/character/standing/gretchen")
+        buffer.draw_texture(self._parent.pos, self._parent.size, "texture/robo_geff")
         pass
 
     def while_colliding(self, other: Collider):
