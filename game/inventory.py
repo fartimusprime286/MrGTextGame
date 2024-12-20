@@ -47,7 +47,7 @@ class InventoryBehavior(ObjectBehavior):
         self._selected_option = max(0, self._selected_option - 1)
 
     def on_removed(self, buffer: KonsoleBuffer):
-        InputHandler.unbind_zone(self._key_zone)
+        InputHandler.instance.unbind_zone(self._key_zone)
         SharedData.disable_player_controls = False
 
     def render(self, buffer: KonsoleBuffer):

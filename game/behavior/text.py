@@ -85,7 +85,7 @@ class TextBoxBehavior(ObjectBehavior):
 
     def render(self, buffer: KonsoleBuffer):
         box_size = self._parent.size
-        center = self._parent.pos + (box_size / Vec2(2,2))
+        center = self._parent.pos
         box_pos = self._parent.pos
         if self.person is not None:
             box_size -= Vec2(self._character_size.x,0)
@@ -93,7 +93,7 @@ class TextBoxBehavior(ObjectBehavior):
             box_pos += Vec2(self._character_size.x, 0)
             buffer.draw_texture(self._parent.pos, self._character_size, self.person, False)
 
-
+        center += (box_size / Vec2(2,2))
 
         buffer.draw_texture(box_pos, box_size, draw_offsetted=False, texture_id="texture/textbox")
         self._render_text_centered(self._node.text, center, buffer)
