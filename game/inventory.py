@@ -40,10 +40,10 @@ class InventoryBehavior(ObjectBehavior):
         InputHandler.instance.get_or_create_keybind("left", self._key_zone).on_press(lambda _: self._scroll_left())
         InputHandler.instance.get_or_create_keybind("right", self._key_zone).on_press(lambda _: self._scroll_right())
 
-    def _scroll_left(self):
+    def _scroll_right(self):
         self._selected_item = min(len(Inventory.items) - 1, self._selected_item + 1)
 
-    def _scroll_right(self):
+    def _scroll_left(self):
         self._selected_item = max(0, self._selected_item - 1)
 
     def on_removed(self, buffer: KonsoleBuffer):

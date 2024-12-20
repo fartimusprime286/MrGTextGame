@@ -17,14 +17,14 @@ class Gretchen(BaseTalkingCharacterBehavior):
     def create_text(self, buffer: SceneKonsoleBuffer) -> TextRoot:
         def modify_favorability(favorability: int):
             CharacterFavorability.add_favorability("gretchen", favorability)
-            Gretchen.date_list.append(SharedData.current_date.datetime())
+            Gretchen.date_list.append(SharedData.current_date.date())
 
         def award_knife():
             Inventory.add_item("knife")
-            Gretchen.date_list.append(SharedData.current_date.datetime())
+            Gretchen.date_list.append(SharedData.current_date.date())
 
         #if you've already gotten food today, she'll refuse to give you anymore
-        if SharedData.current_date.datetime() in Gretchen.date_list:
+        if SharedData.current_date.date() in Gretchen.date_list:
             root = (TextRoot("Come back another day kid.\n(Gretchen's favorability towards you has fallen)")
                     .with_action(lambda obj, buf: modify_favorability(-5)))
             return root
