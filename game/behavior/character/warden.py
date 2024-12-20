@@ -13,7 +13,9 @@ class Warden(BaseTalkingCharacterBehavior):
         death = lambda obj, buf: core.util.terminate("WARDEN DEATH ENDING: You have died to the warden!")
         root.add_child(
             TextNode("Your impudence amazes me!", "Uhhhhhh... Yeah...").add_child(
-                TextNode("What do you think that's gonna do?", "Point at him")
+                TextNode("What do you think that's gonna do?", "Point at him").add_child(
+                    TextNode("", "Await death", death)
+                )
             ).add_child(
                 TextNode("I'll amuse you, why did it?", "Why did the chicken cross the road?").add_child(
                     TextNode("This will be your last mistake", "To run away from your ugly face!").add_child(
@@ -27,7 +29,9 @@ class Warden(BaseTalkingCharacterBehavior):
                                     TextNode("", "Await death", death)
                                 )
                             ).add_child(
-                                TextNode("Not even humorous!", "ME!")
+                                TextNode("Not even humorous!", "ME!").add_child(
+                                    TextNode("", "Await death", death)
+                                )
                             )
                         ).add_child(
                             TextNode("What?", "What do you call a pony with a cough?").add_child(
