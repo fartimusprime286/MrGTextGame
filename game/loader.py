@@ -66,7 +66,7 @@ class PrisonGameLoader(GameLoader):
         )
         SharedData.player_cell_scene.add_object(GameObject("floor_r", Vec2(60, 38), Vec2(40, 2), Textured("texture/floor")))
 
-        SharedData.player_cell_scene.add_object(GameObject("player", Vec2(10, 10), Vec2(6, 6), PlayerBehavior(), RigidBody()))
+        SharedData.player_cell_scene.add_object(GameObject("player", Vec2(10, 10), Vec2(10, 10), PlayerBehavior(), RigidBody()))
         SharedData.player_cell_scene.add_object(GameObject("bed", Vec2(86, 3), Vec2(10, 10), Textured("texture/bed"), BedBehavior()))
         SharedData.player_cell_scene.add_object(GameObject("ball_person", Vec2(15, 30), Vec2(4, 4),Textured("texture/ball"),ExamplePersonBehavior()))
 
@@ -217,7 +217,7 @@ class PrisonGameLoader(GameLoader):
             GameObject(
                 "cafeteria_gate", Vec2(140, 38), Vec2(40, 2),
                 Textured("texture/gate"),
-                SceneSwapper(SharedData.cafeteria_scene, "go to cafeteria","player", Vec2(25, 25))
+                SceneSwapper(SharedData.cafeteria_scene, "go to cafeteria","player", Vec2(45, 4))
             )
         )
         SharedData.hallway_second_scene.add_object(
@@ -245,7 +245,7 @@ class PrisonGameLoader(GameLoader):
             GameObject(
                 "cafeteria_hallway_gate", Vec2(30, 0), Vec2(40, 2),
                 Textured("texture/gate"),
-                SceneSwapper(SharedData.hallway_second_scene, "go to second hallway","player", Vec2(160, 30))
+                SceneSwapper(SharedData.hallway_second_scene, "go to second hallway","player", Vec2(160, 26))
             )
         )
 

@@ -117,6 +117,9 @@ class KonsoleBuffer:
                 color = colors[offset]
                 new_pos = pos + offset
 
+                if color == DefaultColors.NONE.value:
+                    continue
+
                 #core.logging.debug(f"char at: {offset}, {color.mode_reliant(texture.color_mode) + char + Color.reset_string()}")
 
                 self.draw_char_no_color(new_pos, color.mode_reliant(texture.color_mode) + char + Color.reset_string(), draw_offsetted)

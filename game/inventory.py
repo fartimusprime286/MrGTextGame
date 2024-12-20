@@ -2,7 +2,10 @@ from typing import cast
 
 from core import Vec2, DefaultColors
 from core.game import ObjectBehavior, Collider, GameObject
+from core.input import InputHandler
 from core.konsole import KonsoleBuffer
+from core.util import get_or_none
+from data import SharedData
 
 
 class Inventory:
@@ -27,12 +30,25 @@ class InventoryBehavior(ObjectBehavior):
     def __init__(self):
         super().__init__()
         self._selected_item = 0
+        self._key_zone = f"inventory_{id(self)}"
 
     def on_load(self, buffer: KonsoleBuffer):
+        SharedData.disable_player_controls = True
         pass
 
     def update(self, buffer: KonsoleBuffer):
-        pass
+        InputHandler.instance.get_or_create_keybind("left", self._key_zone).on_press(lambda _: self._scroll_left())
+        InputHandler.instance.get_or_create_keybind("right", self._key_zone).on_press(lambda _: self._scroll_right())
+
+    def _scroll_left(self):
+        self._selected_option = min(len(Inventory.items) - 1, self._selected_option + 1)
+
+    def _scroll_right(self):
+        self._selected_option = max(0, self._selected_option - 1)
+
+    def on_removed(self, buffer: KonsoleBuffer):
+        InputHandler.unbind_zone(self._key_zone)
+        SharedData.disable_player_controls = False
 
     def render(self, buffer: KonsoleBuffer):
         items = Inventory.items
@@ -46,15 +62,21 @@ class InventoryBehavior(ObjectBehavior):
         parent = cast(GameObject, self._parent)
         pos = parent.pos
         offset = Vec2(0, 0)
-        for item_idx in range(len(items)):
-            item = items[item_idx]
-            item_texture = f"texture/item/{item}"
+
+        for item_idx in range(4):
+            item = get_or_none(items, item_idx)
             buffer.draw_texture(
                 pos + offset,
                 InventoryBehavior.ITEM_BG_SIZE,
                 InventoryBehavior.ITEM_BG_TEXTURE,
                 False
             )
+
+            if item is None:
+                offset += Vec2(InventoryBehavior.ITEM_BG_SIZE.x + InventoryBehavior.ITEM_OFFSET.x, 0)
+                continue
+
+            item_texture = f"texture/item/{item}"
 
             buffer.draw_texture(
                 pos + offset + InventoryBehavior.ITEM_OFFSET,
