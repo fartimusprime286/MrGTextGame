@@ -94,7 +94,7 @@ class GretchenProxyBehavior(Interactable):
     def on_load(self, buffer: KonsoleBuffer):
         pass
 
-    def updatetime(self, buffer: KonsoleBuffer):
+    def update(self, buffer: KonsoleBuffer):
         pass
 
     def render(self, buffer: KonsoleBuffer):
