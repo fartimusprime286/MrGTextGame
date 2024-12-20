@@ -17,4 +17,5 @@ class SharedData:
     office_scene: Scene
     casino_scene: Scene
     outside_scene: Scene
+    vent_scene: Scene
     current_date = datetime(2134, 1, 1)

@@ -34,7 +34,7 @@ class ExamplePersonBehavior(Interactable):
         ballguywords.add_child(
             TextNode("Excuse me? Why are you here??", "Why are you here?").add_child(TextNode("Oh, I am here to make ensure that \n the games text features are shown off", "Sorry, I didn't mean it rudely")).add_child(TextNode("OWW!!","*Punch it*"))
         )
-        scene_buffer.scene().add_object(GameObject("ballman_tbox", Vec2(100, 0), Vec2(0, 0), TextBoxBehavior(ballguywords, Vec2(100, 16), "texture/ball")))
+        scene_buffer.scene().add_object(GameObject("ballman_tbox", Vec2(100, 0), Vec2(100, 16), TextBoxBehavior(ballguywords, "texture/ball", Vec2(32, 16))))
 
     def interaction_name(self) -> str:
         return "talk to ball"

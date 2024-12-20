@@ -71,15 +71,24 @@ class PlayerBehavior(ObjectBehavior):
         self._camera_track(scene_buffer)
 
     def _open_inventory(self, buffer: SceneKonsoleBuffer):
+        if SharedData.disable_player_controls:
+            return
+
         buffer.scene().add_object(GameObject("inventory", Vec2(110, 4), Vec2(0, 0), InventoryBehavior()))
 
     def _close_inventory(self, buffer: SceneKonsoleBuffer):
         buffer.scene().remove_object("inventory")
 
     def _travel_forwards(self, buffer: SceneKonsoleBuffer):
+        if SharedData.disable_player_controls:
+            return
+
         self._time_travel(buffer, True)
 
     def _travel_backwards(self, buffer: SceneKonsoleBuffer):
+        if SharedData.disable_player_controls:
+            return
+
         self._time_travel(buffer, False)
 
     def _time_travel(self, buffer: SceneKonsoleBuffer, forwards: bool):
