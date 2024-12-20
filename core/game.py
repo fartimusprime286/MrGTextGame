@@ -42,6 +42,9 @@ class ObjectBehavior(ABC):
     def render(self, buffer: KonsoleBuffer):
         pass
 
+    def on_removed(self, buffer: KonsoleBuffer):
+        pass
+
     @abstractmethod
     def while_colliding(self, other: Collider):
         pass
@@ -88,6 +91,10 @@ class GameObject(Collider):
     def render(self, buffer: KonsoleBuffer):
         for behavior in self.behaviors:
             behavior.render(buffer)
+
+    def on_removed(self, buffer: KonsoleBuffer):
+        for behavior in self.behaviors:
+            behavior.on_removed(buffer)
 
     def while_colliding(self, other: Self):
         for behavior in self.behaviors:
@@ -148,7 +155,9 @@ class Scene:
                 self._add_object(game_object)
 
             for name in self._deletion_buffer:
-                self._objects.pop(name, None)
+                obj = self._objects.pop(name, None)
+                if obj is not None:
+                    obj.on_removed(self.buffer)
 
             self._addition_buffer = []
             self._deletion_buffer = []

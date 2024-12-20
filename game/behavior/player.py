@@ -23,7 +23,7 @@ class PlayerBehavior(ObjectBehavior):
         InputHandler.instance.get_or_create_keybind("right", "player").on_press(lambda buf: self._travel_forwards(buf))
         InputHandler.instance.get_or_create_keybind("left", "player").on_press(lambda buf: self._travel_backwards(buf))
         InputHandler.instance.get_or_create_keybind("e", "player").on_press(lambda buf: self._open_inventory(buf))
-        InputHandler.instance.get_or_create_keybind("escape", "player").on_press(lambda buf: self._close_inventory(buf))
+        InputHandler.instance.get_or_create_keybind("esc", "player").on_press(lambda buf: self._close_inventory(buf))
 
     def on_load(self, buffer: KonsoleBuffer):
         pass
@@ -71,7 +71,7 @@ class PlayerBehavior(ObjectBehavior):
         self._camera_track(scene_buffer)
 
     def _open_inventory(self, buffer: SceneKonsoleBuffer):
-        buffer.scene().add_object(GameObject("inventory", Vec2(100, 96), Vec2(0, 0), InventoryBehavior()))
+        buffer.scene().add_object(GameObject("inventory", Vec2(110, 4), Vec2(0, 0), InventoryBehavior()))
 
     def _close_inventory(self, buffer: SceneKonsoleBuffer):
         buffer.scene().remove_object("inventory")
@@ -163,8 +163,9 @@ class PlayerBehavior(ObjectBehavior):
             return
 
         buffer.draw_text(Vec2(104, 4), f"Current Date: {SharedData.current_date.strftime("%B %d, %Y, %H:%M (%A)")}", draw_offsetted=False, color_mapper=lambda _: DefaultColors.RED.value)
+        buffer.draw_text(Vec2(104, 6), "Press 'E' to open inventory, 'ESCAPE' to close it", draw_offsetted=False, color_mapper=lambda _: DefaultColors.RED.value)
         if self._interaction_name is not None:
-            buffer.draw_text(Vec2(104, 6), f"Press BACKSLASH to {self._interaction_name}", draw_offsetted=False, color_mapper=lambda _: DefaultColors.RED.value)
+            buffer.draw_text(Vec2(104, 8), f"Press `BACKSLASH` to {self._interaction_name}", draw_offsetted=False, color_mapper=lambda _: DefaultColors.RED.value)
 
     def while_colliding(self, other: Collider):
         pass

@@ -35,6 +35,10 @@ class TextBoxBehavior(ObjectBehavior):
     def update(self, buffer: KonsoleBuffer):
         pass
 
+    def on_removed(self, buffer: KonsoleBuffer):
+        InputHandler.instance.unbind_zone(self._key_zone)
+        SharedData.disable_player_controls = False
+
     def _scroll_up(self):
         self._selected_option = max(0, self._selected_option - 1)
 
@@ -47,8 +51,6 @@ class TextBoxBehavior(ObjectBehavior):
 
         if len(self._node.children()) == 0:
             buffer.scene().remove_object(self._parent.name)
-            InputHandler.instance.unbind_zone(self._key_zone)
-            SharedData.disable_player_controls = False
             return
 
         child = self._node.children()[self._selected_option]
