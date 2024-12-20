@@ -3,6 +3,7 @@ from core.behavior import Textured
 from core.text import TextRoot
 from game.behavior.bed import BedBehavior
 from game.behavior.character import Gretchen, GretchenProxyBehavior, Geff
+from game.behavior.character.warden import Warden
 from game.behavior.collectibles import Collectible
 from game.behavior.officer import OfficeGate
 from game.behavior.scene import SceneSwapper
@@ -87,7 +88,7 @@ class PrisonGameLoader(GameLoader):
         SharedData.player_cell_scene.add_object(GameObject("ball_person", Vec2(15, 30), Vec2(4, 4),Textured("texture/ball"),ExamplePersonBehavior()))
 
         #Warden
-        SharedData.outside_scene.add_object(GameObject("warden", Vec2(15, 20), Vec2(9, 10),Textured("texture/warden_fartimus_prime")))
+        SharedData.outside_scene.add_object(GameObject("warden", Vec2(15, 20), Vec2(9, 10),Warden()))
 
         #Hallway scene data
 
