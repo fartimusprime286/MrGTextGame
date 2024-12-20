@@ -9,7 +9,7 @@ from data import SharedData
 
 
 class Inventory:
-    items: list[str] = ["knife", "crowbar"]
+    items: list[str] = []
 
     @staticmethod
     def add_item(item: str):
