@@ -2,6 +2,7 @@ from typing import cast
 
 from core import Vec2, DefaultColors
 from core.game import ObjectBehavior, Collider, GameObject
+from core.input import InputHandler
 from core.konsole import KonsoleBuffer
 from core.util import get_or_none
 from data import SharedData
@@ -29,15 +30,24 @@ class InventoryBehavior(ObjectBehavior):
     def __init__(self):
         super().__init__()
         self._selected_item = 0
+        self._key_zone = f"inventory_{id(self)}"
 
     def on_load(self, buffer: KonsoleBuffer):
         SharedData.disable_player_controls = True
         pass
 
     def update(self, buffer: KonsoleBuffer):
-        pass
+        InputHandler.instance.get_or_create_keybind("left", self._key_zone).on_press(lambda _: self._scroll_left())
+        InputHandler.instance.get_or_create_keybind("right", self._key_zone).on_press(lambda _: self._scroll_right())
+
+    def _scroll_left(self):
+        self._selected_option = min(len(Inventory.items) - 1, self._selected_option + 1)
+
+    def _scroll_right(self):
+        self._selected_option = max(0, self._selected_option - 1)
 
     def on_removed(self, buffer: KonsoleBuffer):
+        InputHandler.unbind_zone(self._key_zone)
         SharedData.disable_player_controls = False
 
     def render(self, buffer: KonsoleBuffer):
