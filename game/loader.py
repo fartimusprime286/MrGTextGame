@@ -2,6 +2,8 @@ from core import Vec2
 from core.behavior import Textured
 from game.behavior.bed import BedBehavior
 from game.behavior.character import Gretchen, GretchenProxyBehavior, Geff
+from game.behavior.collectibles import Collectible
+from game.behavior.officer import OfficeGate
 from game.behavior.scene import SceneSwapper
 from core.physix import RigidBody
 from game.behavior.player import PlayerBehavior
@@ -230,7 +232,7 @@ class PrisonGameLoader(GameLoader):
             GameObject(
                 "office_gate", Vec2(90, 0), Vec2(20, 2),
                 Textured("texture/gate"),
-                SceneSwapper(SharedData.office_scene, "go to office","player", Vec2(80, 30))
+                OfficeGate(SharedData.office_scene, "go to office", "player", Vec2(80, 30))
             )
         )
 
@@ -264,6 +266,8 @@ class PrisonGameLoader(GameLoader):
             SceneSwapper(SharedData.hallway_second_scene, "go to second hallway", "player", Vec2(100, 15))
             )
         )
+
+        SharedData.office_scene.add_object(GameObject("key_collectible", Vec2(80, 10), Vec2(10, 5), Collectible("key")))
 
         #showers
         SharedData.showers_scene.add_object(GameObject("roof", Vec2(0, 0), Vec2(100, 2), Textured("texture/floor")))
