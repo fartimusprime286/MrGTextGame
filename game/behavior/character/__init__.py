@@ -112,35 +112,35 @@ class Geff(BaseTalkingCharacterBehavior):
 
         def award_random_item():
             if SharedData.current_date <= datetime(2133,3,31) and SharedData.current_date >= datetime(1,1,1):
-                Inventory.add_item("Paper Airplane")
+                Inventory.add_item("paper_airplane")
                 for i in range(0,90):
                     Geff.date_list.append(datetime(2133,1,1) + timedelta(days=i))
             if SharedData.current_date <= datetime(2133,6,30) and SharedData.current_date >= datetime(2133,4,1):
-                Inventory.add_item("Lint")
+                Inventory.add_item("lint")
                 for i in range(0,91):
                     Geff.date_list.append(datetime(2133,4,1) + timedelta(days=i))
-            if SharedData.current_date <= datetime(2133,9,31) and SharedData.current_date >= datetime(2133,7,1):
-                Inventory.add_item("Gamma Blaster (with no ammo)")
+            if SharedData.current_date <= datetime(2133,9,30) and SharedData.current_date >= datetime(2133,7,1):
+                Inventory.add_item("uncharged_gun")
                 for i in range(0,92):
                     Geff.date_list.append(datetime(2133,7,1) + timedelta(days=i))
             if SharedData.current_date <= datetime(2133,12,31) and SharedData.current_date >= datetime(2133,10,1):
-                Inventory.add_item("Teddy Bear")
+                Inventory.add_item("teddy_bear")
                 for i in range(0,92):
                     Geff.date_list.append(datetime(2133,10,1) + timedelta(days=i))
             if SharedData.current_date <= datetime(2134,3,31) and SharedData.current_date >= datetime(2134,1,1):
-                Inventory.add_item("Jar with Mystery Liquid")
+                Inventory.add_item("mysterious_liquid")
                 for i in range(0,90):
                     Geff.date_list.append(datetime(2134,1,1) + timedelta(days=i))
             if SharedData.current_date <= datetime(2134,6,30) and SharedData.current_date >= datetime(2134,4,1):
-                Inventory.add_item("Woopie Cushion")
+                Inventory.add_item("whoopie_cushion")
                 for i in range(0,91):
                     Geff.date_list.append(datetime(2134,4,1) + timedelta(days=i))
-            if SharedData.current_date <= datetime(2134,9,31) and SharedData.current_date >= datetime(2134,7,1):
-                Inventory.add_item("Crowbar")
+            if SharedData.current_date <= datetime(2134,9,30) and SharedData.current_date >= datetime(2134,7,1):
+                Inventory.add_item("crowbar")
                 for i in range(0,92):
                     Geff.date_list.append(datetime(2134,7,1) + timedelta(days=i))
             if SharedData.current_date <= datetime(9999,12,31) and SharedData.current_date >= datetime(2134,10,1):
-                Inventory.add_item("Familiar Ball")
+                Inventory.add_item("ball")
                 for i in range(0,92):
                     Geff.date_list.append(datetime(2134,10,1) + timedelta(days=i))
 
@@ -150,7 +150,7 @@ class Geff(BaseTalkingCharacterBehavior):
             return root
 
         #If gretchen favors you, she'll offer you a knife, if you decline she'll favor you drastically less
-        if CharacterFavorability.favorability_exceeds_threshold("geff", -10):
+        if not CharacterFavorability.favorability_exceeds_threshold("geff", -10):
             exit("Shouldnt have messed with him...")
         else:
             root = TextRoot("Want a free trinket?")

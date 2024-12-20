@@ -193,7 +193,7 @@ class PrisonGameLoader(GameLoader):
         SharedData.courtyard_scene.add_object(GameObject("roof2", Vec2(0, 0), Vec2(100, 2), Textured("texture/floor")))
         SharedData.courtyard_scene.add_object(GameObject("right_wall", Vec2(98, 0), Vec2(2, 40), Textured("texture/wall")))
         SharedData.courtyard_scene.add_object(GameObject("roof3", Vec2(0, 38), Vec2(100, 2), Textured("texture/floor")))
-        SharedData.courtyard_scene.add_object(GameObject("geff", Vec2(30, 60), Vec2(6, 6), Geff()))
+        SharedData.courtyard_scene.add_object(GameObject("geff", Vec2(85, 30), Vec2(6, 6), Geff()))
 
 
         #second hallway
