@@ -218,7 +218,7 @@ class PrisonGameLoader(GameLoader):
         SharedData.courtyard_scene.add_object(GameObject("right_wall", Vec2(98, 0), Vec2(2, 40), Textured("texture/wall")))
         SharedData.courtyard_scene.add_object(GameObject("roof3", Vec2(0, 38), Vec2(100, 2), Textured("texture/floor")))
         SharedData.courtyard_scene.add_object(GameObject("geff", Vec2(85, 25), Vec2(10, 10), Geff()))
-        SharedData.courtyard_scene.add_object(GameObject("baby", Vec2(85, 25), Vec2(10, 10), DatedBehavior(Baby(),DateRange(datetime(2134,7,4),datetime(2134,7,5)))))
+        SharedData.courtyard_scene.add_object(GameObject("baby", Vec2(35, 12), Vec2(8, 8), DatedBehavior(Baby(),DateRange(datetime(2134,7,3),datetime(2134,7,5)))))
 
 
         #second hallway
