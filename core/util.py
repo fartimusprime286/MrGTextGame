@@ -10,8 +10,9 @@ def get_or_none[T](lst: list[T], idx: int) -> (T | None):
     except IndexError:
         return None
 
-def terminate():
+def terminate(ending_msg: str):
     UpdateHandler.instance.quit()
     UpdateHandler.instance.join()
     logging.force_flush()
+    print(ending_msg)
     sys.exit(0)
