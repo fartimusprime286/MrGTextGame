@@ -1,10 +1,12 @@
-from core import Vec2
+from datetime import datetime
+
+from core import Vec2, DateRange
 from core.behavior import Textured
 from core.text import TextRoot
-from game.behavior.bed import BedBehavior
-from game.behavior.character import Gretchen, GretchenProxyBehavior, Geff
+from game.behavior.character import Gretchen, GretchenProxyBehavior, Geff, Baby
 from game.behavior.character.warden import Warden
 from game.behavior.collectibles import Collectible
+from game.behavior.date import DatedBehavior
 from game.behavior.officer import OfficeGate
 from game.behavior.scene import SceneSwapper
 from core.physix import RigidBody
@@ -69,7 +71,6 @@ class PrisonGameLoader(GameLoader):
         )
         SharedData.player_cell_scene.add_object(GameObject("floor_r", Vec2(60, 38), Vec2(40, 2), Textured("texture/floor")))
 
-        SharedData.player_cell_scene.add_object(GameObject("player", Vec2(10, 10), Vec2(10, 10), PlayerBehavior(), RigidBody()))
         #testing teleport
         '''SharedData.player_cell_scene.add_object(
             GameObject(
@@ -84,7 +85,8 @@ class PrisonGameLoader(GameLoader):
         begfeedback = TextRoot("Let's go gambling! how about some roulette \n Use wasd to move around and backslash to interact \n Press enter to continue")
         SharedData.casino_scene.add_object(GameObject("tbox", Vec2(10, 10), Vec2(90, 30),TextBoxBehavior(begfeedback)))
 
-        SharedData.player_cell_scene.add_object(GameObject("bed", Vec2(86, 3), Vec2(10, 10), Textured("texture/bed"), BedBehavior()))
+        SharedData.player_cell_scene.add_object(GameObject("bed", Vec2(86, 3), Vec2(10, 10), Textured("texture/bed")))
+        SharedData.player_cell_scene.add_object(GameObject("bed", Vec2(86, 3), Vec2(10, 10), Textured("texture/bed")))
         SharedData.player_cell_scene.add_object(GameObject("ball_person", Vec2(15, 30), Vec2(4, 4),Textured("texture/ball"),ExamplePersonBehavior()))
 
         #Warden
@@ -213,6 +215,7 @@ class PrisonGameLoader(GameLoader):
         SharedData.courtyard_scene.add_object(GameObject("right_wall", Vec2(98, 0), Vec2(2, 40), Textured("texture/wall")))
         SharedData.courtyard_scene.add_object(GameObject("roof3", Vec2(0, 38), Vec2(100, 2), Textured("texture/floor")))
         SharedData.courtyard_scene.add_object(GameObject("geff", Vec2(85, 25), Vec2(10, 10), Geff()))
+        SharedData.courtyard_scene.add_object(GameObject("baby", Vec2(85, 25), Vec2(10, 10), DatedBehavior(Baby(),DateRange(datetime(2134,7,4),datetime(2134,7,5)))))
 
 
         #second hallway

@@ -7,7 +7,9 @@ from core.behavior import Interactable
 from core.game import Collider, SceneKonsoleBuffer
 from core.konsole import KonsoleBuffer
 from core.text import TextRoot, TextNode
+from core.util import terminate
 from data import SharedData
+from game.behavior.date import DatedBehavior
 from game.behavior.text import BaseTalkingCharacterBehavior
 from game.character import CharacterFavorability
 from game.inventory import Inventory
@@ -46,15 +48,22 @@ class Gretchen(BaseTalkingCharacterBehavior):
         #Otherwise display regular dialog options
         else:
             root = TextRoot("Take yer pick and move along")
-            root.add_child(TextNode(
-                "What a fine choice.\n(Gretchen's favorability towards you has risen)",
-                "slop",
-                lambda obj, buf: modify_favorability(10)
-            )).add_child(TextNode(
-                "What kinda ditch did you crawl out of?\n(Gretchen's favorability towards you has fallen)",
-                "better looking slop",
-                lambda obj, buf: modify_favorability(-10)
-            ))
+            if CharacterFavorability.favorability_exceeds_threshold("gretchen", -50):
+                root.add_child(TextNode(
+                    "What a fine choice.\n(Gretchen's favorability towards you has risen)",
+                    "slop",
+                    lambda obj, buf: modify_favorability(10)
+                )).add_child(TextNode(
+                    "What kinda ditch did you crawl out of?\n(Gretchen's favorability towards you has fallen)",
+                    "better looking slop",
+                    lambda obj, buf: modify_favorability(-10)
+                ))
+            else:
+                root.add_child(TextNode(
+                    "",
+                    "weird looking slop",
+                    lambda obj, buf: terminate("You croaked. (Gretchen poisoned you ending)")
+                ))
 
         return root
 
@@ -147,13 +156,17 @@ class Geff(BaseTalkingCharacterBehavior):
                     Geff.date_list.append(date(2134,10,1) + timedelta(days=i))
 
 
-        if not CharacterFavorability.favorability_exceeds_threshold("geff", -10):
-            exit("Shouldnt have messed with him... (Made Geff Mad Ending)")
+        if not CharacterFavorability.favorability_exceeds_threshold("geff", -8):
+            terminate("Shouldnt have messed with him... (Made Geff Mad Ending)")
 
         elif SharedData.current_date.date() in Geff.date_list:
-            root = (TextRoot("Wait another three months bub. You've got " + str(9 + (
-                CharacterFavorability.favorability("geff"))) + " more chances" "\n(Geff got a little more angry)")
-                    .with_action(lambda obj, buf: modify_favorability(-1)))
+            if CharacterFavorability.favorability("geff") > -8:
+                root = (TextRoot("Wait another three months bub. You've got " + str(9 + (
+                    CharacterFavorability.favorability("geff"))) + " more chances" "\n(Geff got a little more angry)")
+                        .with_action(lambda obj, buf: modify_favorability(-1)))
+            else:
+                root = (TextRoot("Last chance.")
+                        .with_action(lambda obj, buf: modify_favorability(-1)))
 
         else:
             root = TextRoot("Want a free trinket?")
@@ -182,6 +195,48 @@ class Geff(BaseTalkingCharacterBehavior):
 
     def render(self, buffer: KonsoleBuffer):
         buffer.draw_texture(self._parent.pos, self._parent.size, "texture/robo_geff")
+        pass
+
+    def while_colliding(self, other: Collider):
+        pass
+
+class Baby(BaseTalkingCharacterBehavior):
+    date_list: list[date] = []
+
+    def create_text(self, buffer: SceneKonsoleBuffer) -> TextRoot:
+        def modify_favorability(favorability: int):
+            CharacterFavorability.add_favorability("baby", favorability)
+
+        def award_gun():
+            pass
+
+        if CharacterFavorability.favorability_exceeds_threshold("baby", -8):
+            root = TextRoot("Want a free trinket?")
+            root.add_child(TextNode(
+                "Here you go!\n(Acquired item)",
+                "Sure",
+                lambda obj, buf: award_gun()
+            )).add_child(TextNode(
+                "Alrighty then.",
+                "I dont take things from strangers",
+            ))
+
+        return root
+
+    def character(self, buffer: SceneKonsoleBuffer) -> str:
+        return "geff"
+
+    def interaction_name(self) -> str:
+        return f"talk to anamalous baby"
+
+    def on_load(self, buffer: KonsoleBuffer):
+        pass
+
+    def update(self, buffer: KonsoleBuffer):
+        pass
+
+    def render(self, buffer: KonsoleBuffer):
+        buffer.draw_texture(self._parent.pos, self._parent.size, "texture/baby_rich")
         pass
 
     def while_colliding(self, other: Collider):

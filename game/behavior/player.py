@@ -53,12 +53,15 @@ class PlayerBehavior(ObjectBehavior):
         if InputHandler.instance.is_key_pressed("d"):
             movement_vec.x += 1
         if InputHandler.instance.is_key_pressed("k"):
+            SharedData.casino_scene.remove_object("player")
             scene_buffer.set_scene(SharedData.casino_scene)
             SharedData.casino_scene.add_object(GameObject("player", Vec2(90, 30), Vec2(6, 6), PlayerBehavior(), RigidBody()))
         if InputHandler.instance.is_key_pressed("j"):
+            SharedData.casino_scene.remove_object("player")
             scene_buffer.set_scene(SharedData.outside_scene)
             SharedData.outside_scene.add_object(GameObject("player", Vec2(90, 30), Vec2(6, 6), PlayerBehavior(), RigidBody()))
         if InputHandler.instance.is_key_pressed("r"):
+            SharedData.casino_scene.remove_object("player")
             scene_buffer.set_scene(SharedData.player_cell_scene)
             SharedData.player_cell_scene.add_object(GameObject("player", Vec2(40, 30), Vec2(10, 10), PlayerBehavior(), RigidBody()))
 
