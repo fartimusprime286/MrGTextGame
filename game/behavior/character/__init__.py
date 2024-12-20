@@ -164,9 +164,9 @@ class Geff(BaseTalkingCharacterBehavior):
             ))
         return root
 
-
     def character(self, buffer: SceneKonsoleBuffer) -> str:
         return "geff"
+
 
     def interaction_name(self) -> str:
         return f"talk to Geff the Robo Guard"
@@ -174,7 +174,7 @@ class Geff(BaseTalkingCharacterBehavior):
     def on_load(self, buffer: KonsoleBuffer):
         pass
 
-    def updatetime(self, buffer: KonsoleBuffer):
+    def update(self, buffer: KonsoleBuffer):
         pass
 
     def render(self, buffer: KonsoleBuffer):
