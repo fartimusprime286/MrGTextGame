@@ -193,7 +193,7 @@ class PrisonGameLoader(GameLoader):
         SharedData.courtyard_scene.add_object(GameObject("roof2", Vec2(0, 0), Vec2(100, 2), Textured("texture/floor")))
         SharedData.courtyard_scene.add_object(GameObject("right_wall", Vec2(98, 0), Vec2(2, 40), Textured("texture/wall")))
         SharedData.courtyard_scene.add_object(GameObject("roof3", Vec2(0, 38), Vec2(100, 2), Textured("texture/floor")))
-        SharedData.courtyard_scene.add_object(GameObject("geff", Vec2(30, 60), Vec2(6, 6), Geff))
+        SharedData.courtyard_scene.add_object(GameObject("geff", Vec2(30, 60), Vec2(6, 6), Geff()))
 
 
         #second hallway
@@ -292,7 +292,13 @@ class PrisonGameLoader(GameLoader):
         SharedData.vent_scene.add_object(GameObject("roof",       Vec2(0, 0),   Vec2(100, 2), Textured("texture/floor")))
         SharedData.vent_scene.add_object(GameObject("floor",      Vec2(0, 14),  Vec2(100, 2), Textured("texture/floor")))
         SharedData.vent_scene.add_object(GameObject("left_wall",  Vec2(0, 0),   Vec2(2, 14),  Textured("texture/wall")))
-        SharedData.vent_scene.add_object(GameObject("right_wall", Vec2(98, 0),  Vec2(2, 14),  Textured("texture/wall")))
+        SharedData.vent_scene.add_object(GameObject(
+            "right_wall",
+            Vec2(98, 2),
+            Vec2(2, 12),
+            Textured("texture/gate"),
+            SceneSwapper(SharedData.office_scene, "exit hallway (showers)", "player", Vec2(22, 4))
+        ))
 
         buffer.set_scene(SharedData.player_cell_scene)
 

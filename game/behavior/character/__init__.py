@@ -1,4 +1,4 @@
-from datetime import date, timedelta
+from datetime import date, timedelta, datetime
 from typing import cast
 
 from core.behavior import Interactable
@@ -17,14 +17,14 @@ class Gretchen(BaseTalkingCharacterBehavior):
     def create_text(self, buffer: SceneKonsoleBuffer) -> TextRoot:
         def modify_favorability(favorability: int):
             CharacterFavorability.add_favorability("gretchen", favorability)
-            Gretchen.date_list.append(SharedData.current_date.date())
+            Gretchen.date_list.append(SharedData.current_date.datetime())
 
         def award_knife():
             Inventory.add_item("knife")
-            Gretchen.date_list.append(SharedData.current_date.date())
+            Gretchen.date_list.append(SharedData.current_date.datetime())
 
         #if you've already gotten food today, she'll refuse to give you anymore
-        if SharedData.current_date.date() in Gretchen.date_list:
+        if SharedData.current_date.datetime() in Gretchen.date_list:
             root = (TextRoot("Come back another day kid.\n(Gretchen's favorability towards you has fallen)")
                     .with_action(lambda obj, buf: modify_favorability(-5)))
             return root
@@ -65,7 +65,7 @@ class Gretchen(BaseTalkingCharacterBehavior):
     def on_load(self, buffer: KonsoleBuffer):
         pass
 
-    def update(self, buffer: KonsoleBuffer):
+    def updatetime(self, buffer: KonsoleBuffer):
         pass
 
     def render(self, buffer: KonsoleBuffer):
@@ -94,7 +94,7 @@ class GretchenProxyBehavior(Interactable):
     def on_load(self, buffer: KonsoleBuffer):
         pass
 
-    def update(self, buffer: KonsoleBuffer):
+    def updatetime(self, buffer: KonsoleBuffer):
         pass
 
     def render(self, buffer: KonsoleBuffer):
@@ -111,38 +111,38 @@ class Geff(BaseTalkingCharacterBehavior):
             CharacterFavorability.add_favorability("geff", favorability)
 
         def award_random_item():
-            if SharedData.current_date <= date(2133,3,31) and SharedData.current_date >= date(1,1,1):
+            if SharedData.current_date <= datetime(2133,3,31) and SharedData.current_date >= datetime(1,1,1):
                 Inventory.add_item("Paper Airplane")
                 for i in range(0,90):
-                    Geff.date_list.append(date(2133,1,1) + timedelta(days=i))
-            if SharedData.current_date <= date(2133,6,30) and SharedData.current_date >= date(2133,4,1):
+                    Geff.date_list.append(datetime(2133,1,1) + timedelta(days=i))
+            if SharedData.current_date <= datetime(2133,6,30) and SharedData.current_date >= datetime(2133,4,1):
                 Inventory.add_item("Lint")
                 for i in range(0,91):
-                    Geff.date_list.append(date(2133,4,1) + timedelta(days=i))
-            if SharedData.current_date <= date(2133,9,31) and SharedData.current_date >= date(2133,7,1):
+                    Geff.date_list.append(datetime(2133,4,1) + timedelta(days=i))
+            if SharedData.current_date <= datetime(2133,9,31) and SharedData.current_date >= datetime(2133,7,1):
                 Inventory.add_item("Gamma Blaster (with no ammo)")
                 for i in range(0,92):
-                    Geff.date_list.append(date(2133,7,1) + timedelta(days=i))
-            if SharedData.current_date <= date(2133,12,31) and SharedData.current_date >= date(2133,10,1):
+                    Geff.date_list.append(datetime(2133,7,1) + timedelta(days=i))
+            if SharedData.current_date <= datetime(2133,12,31) and SharedData.current_date >= datetime(2133,10,1):
                 Inventory.add_item("Teddy Bear")
                 for i in range(0,92):
-                    Geff.date_list.append(date(2133,10,1) + timedelta(days=i))
-            if SharedData.current_date <= date(2134,3,31) and SharedData.current_date >= date(2134,1,1):
+                    Geff.date_list.append(datetime(2133,10,1) + timedelta(days=i))
+            if SharedData.current_date <= datetime(2134,3,31) and SharedData.current_date >= datetime(2134,1,1):
                 Inventory.add_item("Jar with Mystery Liquid")
                 for i in range(0,90):
-                    Geff.date_list.append(date(2134,1,1) + timedelta(days=i))
-            if SharedData.current_date <= date(2134,6,30) and SharedData.current_date >= date(2134,4,1):
+                    Geff.date_list.append(datetime(2134,1,1) + timedelta(days=i))
+            if SharedData.current_date <= datetime(2134,6,30) and SharedData.current_date >= datetime(2134,4,1):
                 Inventory.add_item("Woopie Cushion")
                 for i in range(0,91):
-                    Geff.date_list.append(date(2134,4,1) + timedelta(days=i))
-            if SharedData.current_date <= date(2134,9,31) and SharedData.current_date >= date(2134,7,1):
+                    Geff.date_list.append(datetime(2134,4,1) + timedelta(days=i))
+            if SharedData.current_date <= datetime(2134,9,31) and SharedData.current_date >= datetime(2134,7,1):
                 Inventory.add_item("Crowbar")
                 for i in range(0,92):
-                    Geff.date_list.append(date(2134,7,1) + timedelta(days=i))
-            if SharedData.current_date <= date(9999,12,31) and SharedData.current_date >= date(2134,10,1):
+                    Geff.date_list.append(datetime(2134,7,1) + timedelta(days=i))
+            if SharedData.current_date <= datetime(9999,12,31) and SharedData.current_date >= datetime(2134,10,1):
                 Inventory.add_item("Familiar Ball")
                 for i in range(0,92):
-                    Geff.date_list.append(date(2134,10,1) + timedelta(days=i))
+                    Geff.date_list.append(datetime(2134,10,1) + timedelta(days=i))
 
         if SharedData.current_date in Geff.date_list:
             root = (TextRoot("Wait another three months bub. You get " + str(9 + (CharacterFavorability.favorability("geff"))) +" more chances" "\n(Geff got a little more angry)")
@@ -174,7 +174,7 @@ class Geff(BaseTalkingCharacterBehavior):
     def on_load(self, buffer: KonsoleBuffer):
         pass
 
-    def update(self, buffer: KonsoleBuffer):
+    def updatetime(self, buffer: KonsoleBuffer):
         pass
 
     def render(self, buffer: KonsoleBuffer):
