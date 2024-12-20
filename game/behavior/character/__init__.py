@@ -152,7 +152,8 @@ class Geff(BaseTalkingCharacterBehavior):
         #If gretchen favors you, she'll offer you a knife, if you decline she'll favor you drastically less
         if CharacterFavorability.favorability_exceeds_threshold("geff", -10):
             exit("Shouldnt have messed with him...")
-            '''root = TextRoot("Hey kid I got something for you.")
+            '''
+            root = TextRoot("Hey kid I got something for you.")
             root.add_child(TextNode(
                 "Don't let the world stop ya kid.\n(Acquired knife)",
                 "accept",
@@ -160,8 +161,9 @@ class Geff(BaseTalkingCharacterBehavior):
             )).add_child(TextNode(
                 "Tch, you really just\ndon't got what it takes do ya.\n(Gretchen's favorability towards you has fallen massively)",
                 "reject",
-            ))'''
+            ))
         return root
+        '''
 
     def character(self, buffer: SceneKonsoleBuffer) -> str:
         return "geff"
