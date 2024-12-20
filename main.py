@@ -42,5 +42,7 @@ def main():
         core.logging.force_flush()
         print("Closed")
 
+    print(core.util.ending)
+
 if __name__ == '__main__':
     main()
