@@ -89,7 +89,7 @@ class PrisonGameLoader(GameLoader):
         begfeedback = TextRoot("Let's go gambling! how about some roulette \n Use wasd to move around and backslash to interact \n Press enter to continue")
         SharedData.casino_scene.add_object(GameObject("tbox", Vec2(10, 10), Vec2(90, 30),TextBoxBehavior(begfeedback)))
 
-        SharedData.player_cell_scene.add_object(GameObject("bed", Vec2(86, 3), Vec2(10, 10), Textured("texture/bed"), BedBehavior()))
+        SharedData.player_cell_scene.add_object(GameObject("bed", Vec2(86, 3), Vec2(10, 10), Textured("texture/bed")))
         SharedData.player_cell_scene.add_object(GameObject("ball_person", Vec2(15, 30), Vec2(4, 4),Textured("texture/ball"),ExamplePersonBehavior()))
 
         #Warden
