@@ -1,5 +1,6 @@
 from core import Vec2
 from core.behavior import Textured
+from core.text import TextRoot
 from game.behavior.bed import BedBehavior
 from game.behavior.character import Gretchen, GretchenProxyBehavior, Geff
 from game.behavior.collectibles import Collectible
@@ -9,8 +10,9 @@ from core.physix import RigidBody
 from game.behavior.player import PlayerBehavior
 from core.game import GameLoader, SceneKonsoleBuffer, GameObject
 from data import SharedData
-from game.behavior import ExamplePersonBehavior
 from game.behavior.showers import ShowersGate, Vent
+from game.behavior import ExamplePersonBehavior, TextBoxBehavior
+from game.behavior import RouletteBehavior
 
 
 class PrisonGameLoader(GameLoader):
@@ -38,15 +40,15 @@ class PrisonGameLoader(GameLoader):
         #tutorial data
         SharedData.casino_scene.add_object(GameObject("roof", Vec2(0, 0), Vec2(200, 2), Textured("texture/floor")))
         SharedData.casino_scene.add_object(GameObject("floor", Vec2(0, 51), Vec2(200, 2), Textured("texture/floor")))
-        SharedData.casino_scene.add_object(GameObject("left_wall", Vec2(0, 0), Vec2(2, 55), Textured("texture/wall")))
+        SharedData.casino_scene.add_object(GameObject("left_wall", Vec2(0, 0), Vec2(2, 53), Textured("texture/wall")))
         SharedData.casino_scene.add_object(GameObject("right_wall_up", Vec2(198, 0), Vec2(2, 17.5), Textured("texture/wall")))
-        SharedData.casino_scene.add_object(GameObject("right_wall_down", Vec2(198, 37.5), Vec2(2, 17.5), Textured("texture/wall")))
+        SharedData.casino_scene.add_object(GameObject("right_wall_down", Vec2(198, 37.5), Vec2(2, 15.5), Textured("texture/wall")))
+        SharedData.casino_scene.add_object(GameObject("casino_closed_gate", Vec2(198, 17.5), Vec2(2, 20), Textured("texture/gate")))
         SharedData.casino_scene.add_object(GameObject("wall_stair", Vec2(80, 22.5), Vec2(40, 2), Textured("texture/wall")))
         SharedData.casino_scene.add_object(GameObject("wall_stair2", Vec2(80, 30.5), Vec2(40, 2), Textured("texture/wall")))
         SharedData.casino_scene.add_object(GameObject("wall_stair3", Vec2(118, 22.5), Vec2(2, 10), Textured("texture/wall")))
-        SharedData.casino_scene.add_object(GameObject("roulete1", Vec2(4, 3), Vec2(16, 16), Textured("texture/ball"),ExamplePersonBehavior()))
-
-        SharedData.casino_scene.add_object(GameObject("roulete2", Vec2(4, 25), Vec2(16, 16), Textured("texture/ball")))
+        SharedData.casino_scene.add_object(GameObject("roulette_table1", Vec2(8, 5), Vec2(32, 16), Textured("texture/roulette_table"),RouletteBehavior()))
+        SharedData.casino_scene.add_object(GameObject("roulette_table2", Vec2(8, 32), Vec2(32, 16), Textured("texture/roulette_table"),RouletteBehavior()))
 
 
 
@@ -67,6 +69,20 @@ class PrisonGameLoader(GameLoader):
         SharedData.player_cell_scene.add_object(GameObject("floor_r", Vec2(60, 38), Vec2(40, 2), Textured("texture/floor")))
 
         SharedData.player_cell_scene.add_object(GameObject("player", Vec2(10, 10), Vec2(10, 10), PlayerBehavior(), RigidBody()))
+        #testing teleport
+        '''SharedData.player_cell_scene.add_object(
+            GameObject(
+                "portal", Vec2(40, 28), Vec2(10, 2),
+                Textured("texture/gate"),
+                SceneSwapper(SharedData.casino_scene, "go gambling", "player", Vec2(40, 10))
+            )
+        )
+        '''
+        #summon player
+        SharedData.casino_scene.add_object(GameObject("player", Vec2(190, 25), Vec2(10, 10), PlayerBehavior(), RigidBody()))
+        begfeedback = TextRoot("Let's go gambling! how about some roulette \n Use wasd to move around and backslash to interact \n Press enter to continue")
+        SharedData.casino_scene.add_object(GameObject("tbox", Vec2(10, 10), Vec2(90, 30),TextBoxBehavior(begfeedback)))
+
         SharedData.player_cell_scene.add_object(GameObject("bed", Vec2(86, 3), Vec2(10, 10), Textured("texture/bed"), BedBehavior()))
         SharedData.player_cell_scene.add_object(GameObject("ball_person", Vec2(15, 30), Vec2(4, 4),Textured("texture/ball"),ExamplePersonBehavior()))
 
@@ -311,7 +327,7 @@ class PrisonGameLoader(GameLoader):
             SceneSwapper(SharedData.showers_scene, "exit vents (showers)", "player", Vec2(22, 4))
         ))
 
-        buffer.set_scene(SharedData.player_cell_scene)
+        buffer.set_scene(SharedData.casino_scene)
 
     def pre_frame(self, buffer: SceneKonsoleBuffer):
         pass

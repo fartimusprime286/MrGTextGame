@@ -6,6 +6,8 @@ from core import Vec2, BoundingBox
 from core.konsole import KonsoleBuffer
 
 
+
+
 class Collider:
     def __init__(self, name: str, pos: Vec2, size: Vec2):
         self.name = name
