@@ -217,7 +217,7 @@ class PrisonGameLoader(GameLoader):
             GameObject(
                 "cafeteria_gate", Vec2(140, 38), Vec2(40, 2),
                 Textured("texture/gate"),
-                SceneSwapper(SharedData.cafeteria_scene, "go to cafeteria","player", Vec2(25, 25))
+                SceneSwapper(SharedData.cafeteria_scene, "go to cafeteria","player", Vec2(45, 4))
             )
         )
         SharedData.hallway_second_scene.add_object(
@@ -245,7 +245,7 @@ class PrisonGameLoader(GameLoader):
             GameObject(
                 "cafeteria_hallway_gate", Vec2(30, 0), Vec2(40, 2),
                 Textured("texture/gate"),
-                SceneSwapper(SharedData.hallway_second_scene, "go to second hallway","player", Vec2(160, 30))
+                SceneSwapper(SharedData.hallway_second_scene, "go to second hallway","player", Vec2(160, 26))
             )
         )
 
