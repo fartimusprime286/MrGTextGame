@@ -5,8 +5,9 @@ import game.loader
 from core.texture import TextureLoader
 from core.game import SceneKonsoleBuffer, GameLoader
 from core.input import InputHandler
-from core import Vec2
+from core import Vec2, util
 from core.updating import UpdateHandler
+
 
 def main():
     #Load textures from res/texture
@@ -19,6 +20,7 @@ def main():
 
     #Instantiate Buffer
     buffer = SceneKonsoleBuffer(Vec2(200, 50))
+    core.util.buffer = buffer
     buffer.disable_fps_cap()
     #buffer.set_fps_target(1)
     #Create InputHandler instance
