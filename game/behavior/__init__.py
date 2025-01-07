@@ -1,20 +1,23 @@
 from datetime import datetime
+from logging import root
 from typing import cast
 
 from PIL.ImageStat import Global
 
 import core
+
 from core import Vec2
 from core.behavior import Interactable, Textured
 from core.game import GameObject, Collider, SceneKonsoleBuffer
 from core.konsole import KonsoleBuffer
 from core.physix import RigidBody
 from core.text import TextRoot, TextNode
+
 from data import SharedData
 from game.behavior.text import TextBoxBehavior
 from game.behavior.player import PlayerBehavior
 from game.behavior.scene import SceneSwapper
-
+from game.inventory import Inventory
 
 
 UsedRoulette = 0
@@ -163,7 +166,7 @@ class BillBehavior(Interactable):
         scene_buffer = cast(SceneKonsoleBuffer, buffer)
         billwords = TextRoot("Hey punk")
         billwords.add_child(
-            TextNode("Yeah what is it to you?", "You bill?").add_child(TextNode("Don't know if i can trust you", "I gotta know how your escaping").add_child(TextNode("Alright fine you got me \n Im planning to escape through a vent in the showers \n which you can unscrew with a knife \n only problem is to get the knife \n your gonna need a good relationship with gretchen", "pretty please (:"))
+            TextNode("Yeah what is it to you?", "You bill?").add_child(TextNode("Don't know if i can trust you", "I gotta know how your escaping").add_child(TextNode("Alright fine you got me \n Im planning to escape through a vent in the showers \n which you can unscrew with a knife \n only problem is to get the knife \n your gonna need a good relationship with gretchen \n you'll also need a crowbar from jeff", "pretty please (:"))
         ))
         billwords.add_child(TextNode("The only way to survive in this place", "Why so rude?"))
         billwords.add_child(TextNode("hot belgium waffles","*Punch him*"))
@@ -172,6 +175,21 @@ class BillBehavior(Interactable):
 
     def interaction_name(self) -> str:
         return "talk to Bill"
+
+class Prison_Gate(SceneSwapper):
+    def on_interact(self, buffer: KonsoleBuffer, interaction_data):
+        scene_buffer = cast(SceneKonsoleBuffer, buffer)
+        root = TextRoot("")
+        if Inventory.has_item("key"):
+            super().on_interact(buffer, interaction_data)
+        else:
+            root.add_child(
+                TextNode("Locked", "Unlock the gate"))
+        textbox_obj = GameObject(f"textbox_{id(root)}", Vec2(100, 0), Vec2(100, 16), TextBoxBehavior(root))
+        scene_buffer.scene().add_object(textbox_obj)
+
+
+
 
 
 

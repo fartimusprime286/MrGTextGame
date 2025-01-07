@@ -19,6 +19,7 @@ from game.behavior import ExamplePersonBehavior, TextBoxBehavior
 from game.behavior import RouletteBehavior
 from game.behavior import Bill_Summoner
 from game.behavior import LucasBehavior
+from game.behavior import Prison_Gate
 
 
 
@@ -59,8 +60,7 @@ class PrisonGameLoader(GameLoader):
         SharedData.casino_scene.add_object(
             GameObject(
                 "casino_closed_gate", Vec2(198, 17.5), Vec2(2, 20),
-                Textured("texture/gate"),
-                SceneSwapper(SharedData.player_cell_scene, "go to player cell","player", Vec2(40, 20))))
+                Textured("texture/gate")))
         SharedData.casino_scene.add_object(GameObject("wall_stair", Vec2(80, 22.5), Vec2(40, 2), Textured("texture/wall")))
         SharedData.casino_scene.add_object(GameObject("wall_stair2", Vec2(80, 30.5), Vec2(40, 2), Textured("texture/wall")))
         SharedData.casino_scene.add_object(GameObject("wall_stair3", Vec2(118, 22.5), Vec2(2, 10), Textured("texture/wall")))
@@ -73,7 +73,7 @@ class PrisonGameLoader(GameLoader):
         SharedData.player_cell_scene.add_object(GameObject("roof", Vec2(0, 0), Vec2(100, 2), Textured("texture/floor")))
         SharedData.player_cell_scene.add_object(GameObject("left_wall", Vec2(0, 0), Vec2(2, 40), Textured("texture/wall")))
         SharedData.player_cell_scene.add_object(GameObject("right_wall", Vec2(98, 0), Vec2(2, 40), Textured("texture/wall")))
-
+        SharedData.player_cell_scene.add_object(GameObject("key_collectible", Vec2(20, 10), Vec2(10, 5), Collectible("key")))
         #floor
         SharedData.player_cell_scene.add_object(GameObject("floor_l", Vec2(0, 38), Vec2(40, 2), Textured("texture/floor")))
         SharedData.player_cell_scene.add_object(
@@ -100,7 +100,6 @@ class PrisonGameLoader(GameLoader):
         SharedData.casino_scene.add_object(GameObject("tbox", Vec2(10, 10), Vec2(90, 30),TextBoxBehavior(begfeedback)))
 
         SharedData.player_cell_scene.add_object(GameObject("bed", Vec2(86, 3), Vec2(10, 10), Textured("texture/bed")))
-        SharedData.player_cell_scene.add_object(GameObject("ball_person", Vec2(15, 30), Vec2(4, 4),Textured("texture/ball"),ExamplePersonBehavior()))
 
         #Warden
         SharedData.outside_scene.add_object(GameObject("warden", Vec2(15, 20), Vec2(32, 32),Warden()))
@@ -242,7 +241,7 @@ class PrisonGameLoader(GameLoader):
                 SceneSwapper(SharedData.hallway_scene, "go to hallway","player", Vec2(20, 25))
             )
         )
-        SharedData.hallway_second_scene.add_object(GameObject("left_wall", Vec2(0, 0), Vec2(2, 40), Textured("texture/wall")))
+        SharedData.hallway_second_scene.add_object(GameObject("prison_gate", Vec2(0, 0), Vec2(2, 40), Textured("texture/gate"),Prison_Gate(SharedData.outside_scene, "go to outside","player", Vec2(90, 25))))
         SharedData.hallway_second_scene.add_object(GameObject("floor_l9", Vec2(0, 0), Vec2(90, 2), Textured("texture/floor")))
         SharedData.hallway_second_scene.add_object(GameObject("floor_r9", Vec2(170, 0), Vec2(30, 2), Textured("texture/floor")))
         SharedData.hallway_second_scene.add_object(GameObject("floor_m9", Vec2(110, 0), Vec2(40, 2), Textured("texture/floor")))
