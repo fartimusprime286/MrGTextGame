@@ -32,3 +32,7 @@ class Interactable(ObjectBehavior, ABC):
     @abstractmethod
     def interaction_name(self) -> str:
         pass
+class Loadable(ObjectBehavior, ABC):
+    @abstractmethod
+    def on_load(self, buffer: KonsoleBuffer, interaction_data):
+        pass

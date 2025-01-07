@@ -2,6 +2,7 @@ from typing import cast
 
 from core import Vec2
 from core.behavior import Interactable
+from core.behavior import Loadable
 from core.game import Collider, SceneKonsoleBuffer, Scene
 from core.konsole import KonsoleBuffer
 
@@ -35,3 +36,4 @@ class SceneSwapper(Interactable):
 
     def while_colliding(self, other: Collider):
         pass
+

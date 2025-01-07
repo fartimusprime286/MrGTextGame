@@ -7,10 +7,13 @@ from core import Vec2
 from core.behavior import Interactable
 from core.game import GameObject, Collider, SceneKonsoleBuffer
 from core.konsole import KonsoleBuffer
+from core.physix import RigidBody
 from core.text import TextRoot, TextNode
 from data import SharedData
-from game.behavior.scene import SceneSwapper
 from game.behavior.text import TextBoxBehavior
+from game.behavior.player import PlayerBehavior
+from game.behavior.scene import SceneSwapper
+
 
 UsedRoulette = 0
 class ExamplePersonBehavior(Interactable):
@@ -67,9 +70,9 @@ class RouletteBehavior(Interactable):
         def modify_UsedRoulette(e):
             global UsedRoulette
             UsedRoulette += e
-        def Player_cell_teleport():
-            SceneSwapper(SharedData.player_cell_scene, "go to player cell", "player", Vec2(40, 20))
-        if SharedData.current_date > datetime(2134, 1, 1, hour=15, minute=30):
+        def tutorial_complete():
+            SceneSwapper(SharedData.player_cell_scene, "go to player cell", "player", Vec2(20, 10)).on_interact(scene_buffer, None)
+        if SharedData.current_date > datetime(2134, 1, 1, hour=15, minute=29):
             if UsedRoulette == 0:
                 roulettefeedback = TextRoot("Would you like to play roulette? \n Arrow keys to scroll, enter to select")
                 roulettefeedback.add_child(
@@ -86,7 +89,7 @@ class RouletteBehavior(Interactable):
         else:
             roulettefeedback = TextRoot("Would you like to play roulette? \n Arrow keys to scroll, enter to select")
             roulettefeedback.add_child(
-                TextNode("You have been caught cheating Geoffus", "Yes (Play red").add_child(TextNode("You are now imprisoned for you entire meaningless lifetime","Oh no").add_child(TextNode("(Thinking) I can't stay here forever, i have to use my powers to escape \n I can now travel in days but only up to a year", "", lambda obj, buf: Player_cell_teleport()))))
+                TextNode("You have been caught cheating Geoffus", "Yes (Play red)").add_child(TextNode("You are now imprisoned for the rest \n of your entire meaningless life","Oh no").add_child(TextNode("(Thinking) I can't stay here forever, \n i have to use my powers to escape \n I can now travel in days but only up to a year", "", lambda obj, buf: tutorial_complete()))))
             scene_buffer.scene().add_object(GameObject("roulette_tbox", Vec2(100, 0), Vec2(100, 16), TextBoxBehavior(roulettefeedback, "texture/police")))
 
     def interaction_name(self) -> str:

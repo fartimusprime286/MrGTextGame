@@ -17,7 +17,11 @@ from game.behavior.showers import ShowersGate, Vent
 from game.behavior import ExamplePersonBehavior, TextBoxBehavior
 from game.behavior import RouletteBehavior
 
-
+def Bill_Detection():
+    if SharedData.current_date < datetime(2133, 9, 1):
+        SharedData.bill_cell_scene.add_object(GameObject("Bill", Vec2(20, 28), Vec2(32, 32), Textured("texture/bill_front")))
+    else:
+        SharedData.bill_cell_scene.remove_object(GameObject("Bill"))
 class PrisonGameLoader(GameLoader):
     def on_make_buffer(self, buffer: SceneKonsoleBuffer):
 
