@@ -269,7 +269,7 @@ class PrisonGameLoader(GameLoader):
         #cafeteria
         SharedData.cafeteria_scene.add_object(GameObject("left_wall", Vec2(0, 0), Vec2(2, 70), Textured("texture/wall")))
         SharedData.cafeteria_scene.add_object(GameObject("right_wall", Vec2(98, 0), Vec2(2, 70), Textured("texture/wall")))
-        SharedData.cafeteria_scene.add_object(GameObject("roof10", Vec2(0, 68), Vec2(2, 2), Textured("texture/floor")))
+        SharedData.cafeteria_scene.add_object(GameObject("roof10", Vec2(0, 68), Vec2(100, 2), Textured("texture/floor")))
         SharedData.cafeteria_scene.add_object(GameObject("floor_r10", Vec2(70, 0), Vec2(30, 2), Textured("texture/floor")))
         SharedData.cafeteria_scene.add_object(GameObject("floor_l10", Vec2(0, 0), Vec2(30, 2), Textured("texture/floor")))
         SharedData.cafeteria_scene.add_object(

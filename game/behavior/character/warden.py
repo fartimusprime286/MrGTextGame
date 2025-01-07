@@ -11,6 +11,7 @@ class Warden(BaseTalkingCharacterBehavior):
     def create_text(self, buffer: SceneKonsoleBuffer) -> TextRoot:
         root = TextRoot("You really thought you could escape?")
         death = lambda obj, buf: core.util.terminate("WARDEN DEATH ENDING: You have died to the warden!")
+
         root.add_child(
             TextNode("Your impudence amazes me!", "Uhhhhhh... Yeah...").add_child(
                 TextNode("What do you think that's gonna do?", "Point at him").add_child(
