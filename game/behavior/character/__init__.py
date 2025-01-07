@@ -1,4 +1,3 @@
-import winsound
 
 from datetime import date, timedelta, datetime
 from typing import cast
