@@ -27,6 +27,10 @@ class Gretchen(BaseTalkingCharacterBehavior):
             Inventory.add_item("knife")
             Gretchen.date_list.append(SharedData.current_date.date())
 
+        def give_slop():
+            Inventory.add_item("slop")
+            modify_favorability(10)
+
         #if you've already gotten food today, she'll refuse to give you anymore
         if SharedData.current_date.date() in Gretchen.date_list:
             root = (TextRoot("Come back another day kid.\n(Gretchen's favorability towards you has fallen)")
@@ -52,7 +56,7 @@ class Gretchen(BaseTalkingCharacterBehavior):
                 root.add_child(TextNode(
                     "What a fine choice.\n(Gretchen's favorability towards you has risen)",
                     "slop",
-                    lambda obj, buf: modify_favorability(10)
+                    lambda obj, buf: give_slop()
                 )).add_child(TextNode(
                     "What kinda ditch did you crawl out of?\n(Gretchen's favorability towards you has fallen)",
                     "better looking slop",
@@ -208,23 +212,43 @@ class Baby(BaseTalkingCharacterBehavior):
             CharacterFavorability.add_favorability("baby", favorability)
 
         def award_gun():
-            pass
+            Inventory.remove_item("uncharged_gun")
+            Inventory.add_item("charged_gun")
+            Inventory.remove_item("slop")
 
-        if CharacterFavorability.favorability_exceeds_threshold("baby", -8):
-            root = TextRoot("Want a free trinket?")
-            root.add_child(TextNode(
-                "Here you go!\n(Acquired item)",
-                "Sure",
-                lambda obj, buf: award_gun()
-            )).add_child(TextNode(
-                "Alrighty then.",
-                "I dont take things from strangers",
-            ))
+
+        def eat_slop():
+            Inventory.remove_item("slop")
+
+        root = TextRoot("Goo goo gaa gaa \n (It wants food)")
+
+        if Inventory.has_item("slop"):
+
+            if Inventory.has_item("uncharged_gun"):
+                root = TextRoot("Goo goo gaa gaa \n (It wants food)")
+                root.add_child(TextNode(
+                    "Thank you. \n I will reward your kindness 10 fold.",
+                    "*give slop*",
+                    lambda obj, buf: award_gun()
+                )).add_child(TextNode(
+                    "Goo goo gaa gaa",
+                    "Ignore",
+                ))
+            else:
+                root = TextRoot("Goo goo gaa gaa \n (It wants food)")
+                root.add_child(TextNode(
+                    "YAAAAA",
+                    "*give slop*",
+                    lambda obj, buf: eat_slop()
+                )).add_child(TextNode(
+                    "Goo goo gaa gaa",
+                    "Ignore",
+                ))
 
         return root
 
     def character(self, buffer: SceneKonsoleBuffer) -> str:
-        return "geff"
+        return "baby_rich"
 
     def interaction_name(self) -> str:
         return f"talk to anamalous baby"
@@ -236,7 +260,7 @@ class Baby(BaseTalkingCharacterBehavior):
         pass
 
     def render(self, buffer: KonsoleBuffer):
-        buffer.draw_texture(self._parent.pos, self._parent.size, "texture/baby_rich")
+        buffer.draw_texture(self._parent.pos, self._parent.size, "texture/character/standing/baby_rich")
         pass
 
     def while_colliding(self, other: Collider):

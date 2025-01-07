@@ -1,10 +1,11 @@
 from core import DateRange
+from core.behavior import Interactable
 from core.game import ObjectBehavior, Collider
 from core.konsole import KonsoleBuffer
 from data import SharedData
 
 
-class DatedBehavior(ObjectBehavior):
+class DatedBehavior(Interactable):
     def __init__(self, behavior: ObjectBehavior, date_range: DateRange):
         super().__init__()
         self.behavior = behavior
@@ -48,3 +49,12 @@ class DatedBehavior(ObjectBehavior):
             return
 
         self.behavior.while_colliding(other)
+
+    def interaction_name(self) -> str:
+        if isinstance(self.behavior,Interactable):
+            return self.behavior.interaction_name()
+        return ""
+
+    def on_interact(self, buffer: KonsoleBuffer, interaction_data):
+        if isinstance(self.behavior,Interactable):
+            return self.behavior.on_interact(buffer,interaction_data)

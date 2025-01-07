@@ -15,6 +15,9 @@ class Inventory:
     def add_item(item: str):
         Inventory.items.append(item)
 
+    def remove_item(item: str):
+        Inventory.items.remove(item)
+
     @staticmethod
     def has_item(item: str) -> bool:
         return item in Inventory.items

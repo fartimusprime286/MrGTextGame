@@ -152,7 +152,9 @@ class PlayerBehavior(ObjectBehavior):
 
         interactables = rcast_object.get_behavior_by_type(Interactable)
         if interactables:
-            return interactables[0]
+            first_interactable = interactables[0]
+            if first_interactable.interaction_name()!= "":
+                return first_interactable
 
     def _attempt_interact(self, buffer: SceneKonsoleBuffer):
         if SharedData.disable_player_controls:
