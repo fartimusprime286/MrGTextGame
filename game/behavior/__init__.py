@@ -124,7 +124,7 @@ class LucasBehavior(Interactable):
         .add_child(TextNode("...", "What about that joel fellow across from your cell?")
         .add_child(TextNode("I hear he can give you different items depending on the month", "Know anything about jeff?")))))
         lucaswords.add_child(TextNode("July 4th, Courtyard, Look for him\ndon't mention him again\nthe timeline isn't stable", "UNB....OOO....RRR....NNNN BA>>>>@@@@Q!@AB****Y"))
-        lucaswords.add_child(TextNode("You will regret this","*Punch him*").add_child(TextNode("", "", death)))
+        lucaswords.add_child(TextNode("You will regret this","*Punch him*", death))
         lucaswords.add_child(TextNode("bye","Goodbye"))
         scene_buffer.scene().add_object(GameObject("Lucas_tbox", Vec2(100, 0), Vec2(100, 16), TextBoxBehavior(lucaswords, "texture/lucas_talking", Vec2(32, 16))))
 
