@@ -1,4 +1,3 @@
-
 from datetime import date, timedelta, datetime
 from typing import cast
 
@@ -8,7 +7,6 @@ from core.konsole import KonsoleBuffer
 from core.text import TextRoot, TextNode
 from core.util import terminate
 from data import SharedData
-from game.behavior.date import DatedBehavior
 from game.behavior.text import BaseTalkingCharacterBehavior
 from game.character import CharacterFavorability
 from game.inventory import Inventory

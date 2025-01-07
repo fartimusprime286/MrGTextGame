@@ -1,16 +1,12 @@
 from datetime import datetime
-from logging import root
 from typing import cast
-
-from PIL.ImageStat import Global
 
 import core
 
-from core import Vec2
+from core import Vec2, util
 from core.behavior import Interactable, Textured
 from core.game import GameObject, Collider, SceneKonsoleBuffer
 from core.konsole import KonsoleBuffer
-from core.physix import RigidBody
 from core.text import TextRoot, TextNode
 
 from data import SharedData
@@ -127,20 +123,21 @@ class LucasBehavior(Interactable):
         lucaswords.add_child(TextNode("Not really but i do know quite a bit about this place", "You know anything about escaping this place?").add_child(TextNode("That's bills cell  \n probably was your best chance at escaping \n too bad he died a couple months ago", "Know anything about that empty cell across from mine?")
         .add_child(TextNode("...", "What about that joel fellow across from your cell?")
         .add_child(TextNode("I hear he can give you different items depending on the month", "Know anything about jeff?")))))
-        lucaswords.add_child(TextNode("You will regret this","*Punch him*", death))
+        lucaswords.add_child(TextNode("July 4th, Courtyard, Look for him\ndon't mention him again\nthe timeline isn't stable", "UNB....OOO....RRR....NNNN BA>>>>@@@@Q!@AB****Y"))
+        lucaswords.add_child(TextNode("You will regret this","*Punch him*").add_child(TextNode("", "", death)))
         lucaswords.add_child(TextNode("bye","Goodbye"))
         scene_buffer.scene().add_object(GameObject("Lucas_tbox", Vec2(100, 0), Vec2(100, 16), TextBoxBehavior(lucaswords, "texture/lucas_talking", Vec2(32, 16))))
 
     def interaction_name(self) -> str:
         return "talk to Lucas"
 
-class Bill_Summoner(SceneSwapper):
+class BillSummoner(SceneSwapper):
     BillsTime = datetime(2133, 9, 1, 15)
 
     def on_interact(self, buffer: KonsoleBuffer, interaction_data):
         scene_buffer = cast(SceneKonsoleBuffer, buffer)
 
-        if SharedData.current_date < Bill_Summoner.BillsTime:
+        if SharedData.current_date < BillSummoner.BillsTime:
             SharedData.bill_cell_scene.add_object(GameObject("Bill", Vec2(20, 25), Vec2(10, 10), Textured("texture/bill_front"),BillBehavior()))
             super().on_interact(buffer, interaction_data)
         else:
@@ -176,17 +173,16 @@ class BillBehavior(Interactable):
     def interaction_name(self) -> str:
         return "talk to Bill"
 
-class Prison_Gate(SceneSwapper):
+class PrisonGate(SceneSwapper):
     def on_interact(self, buffer: KonsoleBuffer, interaction_data):
         scene_buffer = cast(SceneKonsoleBuffer, buffer)
         root = TextRoot("")
         if Inventory.has_item("key"):
             super().on_interact(buffer, interaction_data)
         else:
-            root.add_child(
-                TextNode("Locked", "Unlock the gate"))
-        textbox_obj = GameObject(f"textbox_{id(root)}", Vec2(100, 0), Vec2(100, 16), TextBoxBehavior(root))
-        scene_buffer.scene().add_object(textbox_obj)
+            root.add_child(TextNode("Locked", "Unlock the gate"))
+            textbox_obj = GameObject(f"textbox_{id(root)}", Vec2(100, 0), Vec2(100, 16), TextBoxBehavior(root))
+            scene_buffer.scene().add_object(textbox_obj)
 
 
 

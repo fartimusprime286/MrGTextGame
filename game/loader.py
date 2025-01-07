@@ -17,9 +17,9 @@ from data import SharedData
 from game.behavior.showers import ShowersGate, Vent
 from game.behavior import ExamplePersonBehavior, TextBoxBehavior
 from game.behavior import RouletteBehavior
-from game.behavior import Bill_Summoner
+from game.behavior import BillSummoner
 from game.behavior import LucasBehavior
-from game.behavior import Prison_Gate
+from game.behavior import PrisonGate
 
 
 
@@ -31,8 +31,6 @@ from game.behavior import Prison_Gate
 #loads map and objects
 class PrisonGameLoader(GameLoader):
     def on_make_buffer(self, buffer: SceneKonsoleBuffer):
-
-
         #tutorial scene
         SharedData.casino_scene = buffer.create_scene().set_large()
         #create player cell
@@ -73,7 +71,6 @@ class PrisonGameLoader(GameLoader):
         SharedData.player_cell_scene.add_object(GameObject("roof", Vec2(0, 0), Vec2(100, 2), Textured("texture/floor")))
         SharedData.player_cell_scene.add_object(GameObject("left_wall", Vec2(0, 0), Vec2(2, 40), Textured("texture/wall")))
         SharedData.player_cell_scene.add_object(GameObject("right_wall", Vec2(98, 0), Vec2(2, 40), Textured("texture/wall")))
-        SharedData.player_cell_scene.add_object(GameObject("key_collectible", Vec2(20, 10), Vec2(10, 5), Collectible("key")))
         #floor
         SharedData.player_cell_scene.add_object(GameObject("floor_l", Vec2(0, 38), Vec2(40, 2), Textured("texture/floor")))
         SharedData.player_cell_scene.add_object(
@@ -152,7 +149,7 @@ class PrisonGameLoader(GameLoader):
             GameObject(
                 "gate_bill", Vec2(40, 38), Vec2(20, 2),
                 Textured("texture/gate"),
-                Bill_Summoner(SharedData.bill_cell_scene, "go to bills cell", "player", Vec2(40, 10))
+                BillSummoner(SharedData.bill_cell_scene, "go to bills cell", "player", Vec2(40, 10))
             )
         )
         SharedData.hallway_scene.add_object(GameObject("floor2_r", Vec2(60, 38), Vec2(40, 2), Textured("texture/floor")))
@@ -241,7 +238,7 @@ class PrisonGameLoader(GameLoader):
                 SceneSwapper(SharedData.hallway_scene, "go to hallway","player", Vec2(20, 25))
             )
         )
-        SharedData.hallway_second_scene.add_object(GameObject("prison_gate", Vec2(0, 0), Vec2(2, 40), Textured("texture/gate"),Prison_Gate(SharedData.outside_scene, "go to outside","player", Vec2(90, 25))))
+        SharedData.hallway_second_scene.add_object(GameObject("prison_gate", Vec2(0, 0), Vec2(2, 40), Textured("texture/gate"), PrisonGate(SharedData.outside_scene, "go to outside", "player", Vec2(90, 25))))
         SharedData.hallway_second_scene.add_object(GameObject("floor_l9", Vec2(0, 0), Vec2(90, 2), Textured("texture/floor")))
         SharedData.hallway_second_scene.add_object(GameObject("floor_r9", Vec2(170, 0), Vec2(30, 2), Textured("texture/floor")))
         SharedData.hallway_second_scene.add_object(GameObject("floor_m9", Vec2(110, 0), Vec2(40, 2), Textured("texture/floor")))
