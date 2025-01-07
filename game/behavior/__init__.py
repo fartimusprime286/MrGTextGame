@@ -3,8 +3,9 @@ from typing import cast
 
 from PIL.ImageStat import Global
 
+import core
 from core import Vec2
-from core.behavior import Interactable
+from core.behavior import Interactable, Textured
 from core.game import GameObject, Collider, SceneKonsoleBuffer
 from core.konsole import KonsoleBuffer
 from core.physix import RigidBody
@@ -13,6 +14,7 @@ from data import SharedData
 from game.behavior.text import TextBoxBehavior
 from game.behavior.player import PlayerBehavior
 from game.behavior.scene import SceneSwapper
+
 
 
 UsedRoulette = 0
@@ -94,6 +96,83 @@ class RouletteBehavior(Interactable):
 
     def interaction_name(self) -> str:
         return "use roulette table"
+
+class LucasBehavior(Interactable):
+    def __init__(self):
+        super().__init__()
+
+    def on_load(self, buffer: KonsoleBuffer):
+        pass
+
+    def update(self, buffer: KonsoleBuffer):
+        pass
+
+    def render(self, buffer: KonsoleBuffer):
+        pass
+
+    def while_colliding(self, other: Collider):
+        pass
+
+    def on_interact(self, buffer: KonsoleBuffer, interaction_data):
+        scene_buffer = cast(SceneKonsoleBuffer, buffer)
+        death = lambda obj, buf: core.util.terminate("ERROR IN JUDGEMENT ENDING: You have died to the lucas! \n you idiot")
+        lucaswords = TextRoot("Hey bud")
+        lucaswords.add_child(
+            TextNode("Im lucas been here for a couple years now", "who are you?")
+            .add_child(TextNode("Yup", "Wow, that's a long time"))
+        )
+        lucaswords.add_child(TextNode("Not really but i do know quite a bit about this place", "You know anything about escaping this place?").add_child(TextNode("That's bills cell  \n probably was your best chance at escaping \n too bad he died a couple months ago", "Know anything about that empty cell across from mine?")
+        .add_child(TextNode("...", "What about that joel fellow across from your cell?")
+        .add_child(TextNode("I hear he can give you different items depending on the month", "Know anything about jeff?")))))
+        lucaswords.add_child(TextNode("You will regret this","*Punch him*", death))
+        lucaswords.add_child(TextNode("bye","Goodbye"))
+        scene_buffer.scene().add_object(GameObject("Lucas_tbox", Vec2(100, 0), Vec2(100, 16), TextBoxBehavior(lucaswords, "texture/lucas_talking", Vec2(32, 16))))
+
+    def interaction_name(self) -> str:
+        return "talk to Lucas"
+
+class Bill_Summoner(SceneSwapper):
+    BillsTime = datetime(2133, 9, 1, 15)
+
+    def on_interact(self, buffer: KonsoleBuffer, interaction_data):
+        scene_buffer = cast(SceneKonsoleBuffer, buffer)
+
+        if SharedData.current_date < Bill_Summoner.BillsTime:
+            SharedData.bill_cell_scene.add_object(GameObject("Bill", Vec2(20, 25), Vec2(10, 10), Textured("texture/bill_front"),BillBehavior()))
+            super().on_interact(buffer, interaction_data)
+        else:
+            super().on_interact(buffer, interaction_data)
+
+class BillBehavior(Interactable):
+    def __init__(self):
+        super().__init__()
+
+    def on_load(self, buffer: KonsoleBuffer):
+        pass
+
+    def update(self, buffer: KonsoleBuffer):
+        pass
+
+    def render(self, buffer: KonsoleBuffer):
+        pass
+
+    def while_colliding(self, other: Collider):
+        pass
+
+    def on_interact(self, buffer: KonsoleBuffer, interaction_data):
+        scene_buffer = cast(SceneKonsoleBuffer, buffer)
+        billwords = TextRoot("Hey punk")
+        billwords.add_child(
+            TextNode("Yeah what is it to you?", "You bill?").add_child(TextNode("Don't know if i can trust you", "I gotta know how your escaping").add_child(TextNode("Alright fine you got me \n Im planning to escape through a vent in the showers \n which you can unscrew with a knife \n only problem is to get the knife \n your gonna need a good relationship with gretchen", "pretty please (:"))
+        ))
+        billwords.add_child(TextNode("The only way to survive in this place", "Why so rude?"))
+        billwords.add_child(TextNode("hot belgium waffles","*Punch him*"))
+        billwords.add_child(TextNode("bye","Goodbye"))
+        scene_buffer.scene().add_object(GameObject("Bill_tbox", Vec2(100, 0), Vec2(100, 16), TextBoxBehavior(billwords, "texture/bill_talking", Vec2(32, 16))))
+
+    def interaction_name(self) -> str:
+        return "talk to Bill"
+
 
 
 

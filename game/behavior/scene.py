@@ -5,6 +5,7 @@ from core.behavior import Interactable
 from core.behavior import Loadable
 from core.game import Collider, SceneKonsoleBuffer, Scene
 from core.konsole import KonsoleBuffer
+from data import SharedData
 
 
 class SceneSwapper(Interactable):
@@ -21,6 +22,7 @@ class SceneSwapper(Interactable):
         self.scene.add_object(player)
         scene_buffer.set_scene(self.scene)
         player.pos = self.new_player_pos
+        SharedData.disable_player_controls = False
 
     def interaction_name(self) -> str:
         return self.interact_name

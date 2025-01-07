@@ -11,6 +11,7 @@ from game.behavior.scene import SceneSwapper
 from game.inventory import Inventory
 
 
+
 class ShowersGate(SceneSwapper):
     RENOVATIONS_END_DATE = datetime(2134, 4, 19, 12)
 
@@ -52,3 +53,4 @@ class Vent(SceneSwapper):
 
         textbox_obj = GameObject(f"textbox_{id(root)}", Vec2(100, 0), Vec2(100, 16), TextBoxBehavior(root))
         scene_buffer.scene().add_object(textbox_obj)
+
